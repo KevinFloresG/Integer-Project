@@ -26,6 +26,7 @@ public:
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
+	// idea para la suma, sumar y dividir, recordá KEVIIIIIIIN
 };
 
 #endif // !INTEGER_H
