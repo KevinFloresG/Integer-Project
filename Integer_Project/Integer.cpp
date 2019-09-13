@@ -13,6 +13,10 @@ Integer::Integer(int n) : sign(true) {
 	first = new Nodo();
 	first->next = nullptr;
 	Nodo* aux = first; // se auto destruye al salir del metodo no? (la memoria del puntero se libera)
+
+	/*No esto seguro si se destruye o no, cualquier cosa poniendo un delete aux al final no deberíamos tener problemas
+	o sí ? */
+
 	for (int x = 0; n; x++) {
 		if (x == 5) {
 			aux->next = new Nodo();
