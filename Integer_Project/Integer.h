@@ -25,6 +25,7 @@ private:
 public:
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
+	Integer(long);		// Constructor Overload (long)
 };
 
 #endif // !INTEGER_H
