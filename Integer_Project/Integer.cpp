@@ -170,7 +170,7 @@ Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 pero di sirve para probar y di cumple lo que se espera de esto*/
 
 //Returns string of the digits of Integer
-std::string Integer::toString() {
+std::string Integer::toString() const{
 
 	std::stringstream stringIntegerD; // Stringstream in which the digits of a Node are stored
 	std::string stringInteger=""; // String in which all the digits of Integer are stored, but with the extra zeros
@@ -255,4 +255,33 @@ Integer& Integer::operator=(const Integer& n_2) {
 	if (!this->first) { this->first = new Nodo(); }
 	nodos_copy(this->first, n_2.first);
 	return *this;
+}
+
+bool Integer::operator==(const Integer& n_2) {
+
+	Nodo* aux1 = this->first;
+	Nodo* aux2 = n_2.first;
+
+	while (aux1 && aux2) {
+
+		for (int i = 0; i < V_TAM; i++)
+			if (aux1->v[i] != aux2->v[i]) // It an element from the array is different then ther are not equal
+				return false;
+
+		aux1 = aux1->next;
+		aux2 = aux2->next;
+
+		if ((aux1 && !aux2) || (!aux1 && aux2)) //If they are of different length they are not equal
+			return false;
+
+	}
+
+	return true; // If we get here then both Integers are equal
+
+}
+
+// Overload of << Operator using the method toString()
+std::ostream& operator <<(std::ostream& exit, const Integer& node) {
+	exit << node.toString();
+	return exit;
 }

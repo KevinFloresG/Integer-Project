@@ -44,9 +44,10 @@ public:
 	Integer& operator+(const Integer&);
 	Integer& operator-(const Integer&);
 	Integer& operator=(const Integer&);
+	bool operator ==(const Integer&);
 
-	//friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
-	std::string toString(); // Method to convert Integer into a string to print it
+	friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
+	std::string toString()const; // Method to convert Integer into a string to print it
 };
 
 #endif // !INTEGER_H

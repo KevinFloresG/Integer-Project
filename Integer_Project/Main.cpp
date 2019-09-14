@@ -39,6 +39,15 @@ int main(int argc, char* argv[]) {
 	// Salida: 10123486440000077700000000000129749302
 	// 10 1234 8644 0000 0777 0000 0000 0001 2974 9302
 
+	Integer* z = new Integer(_long);
+	z->first->next = new Nodo;
+	z->first->next->next = nullptr;
+	z->first->next->v[0] = 123;
+	z->first->next->v[1] = 783;
+	z->first->next->v[2] = 9863;
+	z->first->next->v[3] = 0;
+	z->first->next->v[4] = 23;
+
 	Integer *x_plus_y = new Integer();
 	*x_plus_y = *x + *y;
 	// x_plus_y = next = 33 1235 8507 0783 0900 0000 0000 0003 6431 5425 
@@ -57,7 +66,7 @@ int main(int argc, char* argv[]) {
 	// Javier: Pruebas del toString()
 
 	std::cout << "Valor 1: " << std::endl;
-	std::cout << x->toString();
+	std::cout << *x; // Prueba sobrecarga de <<
 	std::cout << std::endl;
 	std::cout << std::endl;
 
@@ -66,18 +75,41 @@ int main(int argc, char* argv[]) {
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-
-	// Javier: Prueba del toString() y suma
-	std::cout << "Suma de valor 1 y valor 2: " << std::endl;
-	std::cout << x_plus_y->toString();
+	std::cout << "Valor 3: " << std::endl;
+	std::cout << z->toString();
 	std::cout << std::endl;
 	std::cout << std::endl;
 
-	// Javier: Prueba del toString() y resta
-	std::cout << "Resta de valor 1 y valor 2: " << std::endl;
-	std::cout << x_less_y->toString();
-	std::cout << std::endl;
-	std::cout << std::endl;
+
+	//// Javier: Prueba del toString() y suma
+	//std::cout << "Suma de valor 1 y valor 2: " << std::endl;
+	//std::cout << x_plus_y->toString();
+	//std::cout << std::endl;
+	//std::cout << std::endl;
+
+	//// Javier: Prueba del toString() y resta
+	//std::cout << "Resta de valor 1 y valor 2: " << std::endl;
+	//std::cout << x_less_y->toString();
+	//std::cout << std::endl;
+	//std::cout << std::endl;
+
+	std::cout << "Son iguales 1 y 2?" << std::endl << std::endl;
+	if(*x==*y)
+		std::cout<<"SI SON IGUALES"<< std::endl << std::endl;
+	else
+		std::cout << "NO SON IGUALES" << std::endl << std::endl;
+
+	std::cout << "Son iguales 2 y 3?" << std::endl << std::endl;
+	if (*y == *z)
+		std::cout << "SI SON IGUALES" << std::endl << std::endl;
+	else
+		std::cout << "NO SON IGUALES" << std::endl << std::endl;
+
+	std::cout << "Son iguales 1 y 3?" << std::endl << std::endl;
+	if (*x == *z)
+		std::cout << "SI SON IGUALES" << std::endl << std::endl;
+	else
+		std::cout << "NO SON IGUALES" << std::endl << std::endl;
 
 	delete x;
 	delete y;
