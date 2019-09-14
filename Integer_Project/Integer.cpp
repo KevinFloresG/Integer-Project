@@ -3,6 +3,8 @@
 // Description: Implementation of Integer.h.
 
 #include"Integer.h"
+#include <sstream>
+
 
 Integer::Integer() : sign(true), first(nullptr) {}
 
@@ -14,10 +16,14 @@ Integer::Integer(int n) : sign(true) {
 	first->next = nullptr;
 	Nodo* aux = first; // se auto destruye al salir del metodo no? (la memoria del puntero se libera)
 
-	/*No esto seguro si se destruye o no, cualquier cosa poniendo un delete aux al final no deberíamos tener problemas
+	/*Javier: No esto seguro si se destruye o no, cualquier cosa poniendo un delete aux al final no deberíamos tener problemas
 	o sí ? (Siempre y cuado el ptr no este viendo el nodo al final, sino nullptr)
 
 	Kevin: es que si le ponemos delete va a borrar el nodo. 
+
+	Javier: Y si al final le asignamos null_ptr y luego si delete ? O no tiene sentido ?
+
+
 	*/
 
 	for (int x = 0; n; x++) {
@@ -114,4 +120,70 @@ Integer& Integer::sum_2(Integer& n_1, Integer& n_2) {
 	}
 
 	return *result;
+}
+
+
+/*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
+pero a sirve para probar y di cumple lo que se espera de esto*/
+
+
+//Returns string of the digits of Integer
+std::string Integer::toString() {
+
+	std::stringstream stringInteger; // Stringstream in which all the digits from Integer are stored
+	std::stringstream actualStringInteger; // Stringstream in which there are no extra zeros (i.e. 00002 would be saved as 2 in this stringstream)
+	std::string noExtraZeros; // Used to create actualStringInteger
+
+	Nodo* aux = first;
+	short int digits=0;
+
+
+	
+	while (aux) {
+
+		for (int i = V_TAM-1; i >= 0; i--) {
+
+			digits = aux->v[i];
+
+			if (digits < 10) {
+				stringInteger << "000" << digits;
+				continue;
+			}
+
+			if (digits < 100) {
+				stringInteger << "00" << digits;
+				continue;
+			}
+
+			if (first->v[i] < 1000) {
+				stringInteger << "0" << digits;
+				continue;
+			}
+
+			stringInteger << digits;
+
+		
+		}
+
+		aux = aux->next;
+	}
+
+	// The following for is to create a stringstream where there are no extra zeros
+
+	noExtraZeros = stringInteger.str(); 
+	bool startPrintingActualNumber = false; // To know when to start getting numbers
+
+	for (int i = 0; i < noExtraZeros.length(); i++) {
+
+		if (noExtraZeros[i] != '0') // Is true when the number starts
+			startPrintingActualNumber = true;
+
+		if (startPrintingActualNumber)
+			actualStringInteger  << noExtraZeros[i];
+	}
+
+	actualStringInteger << '\n';
+
+	return actualStringInteger.str();
+
 }

@@ -9,7 +9,10 @@
 #define DIGITS_CANT 10000 //Por esto de divide o de modula un número para quitarle 4 dígitos
 #define V_TAM 5
 
+#include <string>
+using std::string;
 #include<iostream>
+
 
 //static const short int ZERO = 0;
 //static const short int ONE = 1;
@@ -31,9 +34,9 @@ public:
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
 	Integer& sum_2(Integer&, Integer&);
+
+	//friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
+	std::string toString(); // Method to convert Integer into a string to print it
 };
 
 #endif // !INTEGER_H
-
-
-

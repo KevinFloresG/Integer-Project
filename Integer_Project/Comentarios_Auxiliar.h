@@ -28,6 +28,8 @@ La cosa entonces sería saber cuando se llegó a ese último dígito entonces no ?
 
 Y si tiene sentido solo que di como dice no creo que vayamos a ocupar calcularlo o podamos por el limite de short int.
 
+
+RESUELTO:
 Para imprimir cuando solo tenemos [0] guardado en la celda que no contiene los últimos dígitos se puede hacer a lo
 
 if(v[i]==ZERO)
@@ -36,5 +38,7 @@ s<<"0000";
 Cuando tenemos algo a lo [56],[7] o [100] supongo que podríamos revisar si es menor a 1000,100 o 10 y en base a eso mandamos 
 la cantidad de 0s necesaria y luego lo que hay en la celda, aunque o se si muy feo , ineficiente o lo que sea
 hacerlo con ese poco de ifs
+
+FALTA: Verificar si se puede aumentar eficiencia en algo de esto o no
 
 */
