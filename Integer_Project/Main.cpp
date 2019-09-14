@@ -21,6 +21,11 @@ int main(int argc, char* argv[]) {
 	x->first->next->v[4] = 23;
 	// x = 23 0000 9863 0783 0123 0000 0000 0002 3456 6123
 
+
+	// Salida: 23000098630783012300000000000234566123
+	// 23 0000 9863 0783 0123 0000 0000 0002 3456 6123
+
+
 	Integer *y = new Integer(_long2);
 	y->first->next = new Nodo;
 	y->first->next->next = nullptr;
@@ -31,29 +36,47 @@ int main(int argc, char* argv[]) {
 	y->first->next->v[4] = 10;
 	// y = 10 1234 8644 0000 0777 0000 0000 0001 2974 9302
 
+	// Salida: 10123486440000077700000000000129749302
+	// 10 1234 8644 0000 0777 0000 0000 0001 2974 9302
+
 	Integer *x_plus_y = new Integer();
 	*x_plus_y = *x + *y;
 	// x_plus_y = next = 33 1235 8507 0783 0900 0000 0000 0003 6431 5425 
+
+
+	// Salida: 33123585070783090000000000000364315425
+	// 33 1235 8507 0783 0900 0000 0000 0003 6431 5425
 
 	Integer *x_less_y = new Integer();
 	*x_less_y = *x - *y;
 	// x_less_y = next = 12 8766 1219 0782 9346 0000 0000 0001 0481 6821
 
+	// Salida: 12876612190782934600000000000104816821
+	// 12 8766 1219 0782 9346 0000 0000 0001 0481 6821
 
-	// Javier: Pruebas del toString();
+	// Javier: Pruebas del toString()
 
 	std::cout << "Valor 1: " << std::endl;
-	///std::cout << x->toString();
+	std::cout << x->toString();
+	std::cout << std::endl;
 	std::cout << std::endl;
 
 	std::cout << "Valor 2: " << std::endl;
-	//std::cout << y->toString();
+	std::cout << y->toString();
+	std::cout << std::endl;
 	std::cout << std::endl;
 
 
-	// Javier: Prueba del toString() y sum_2();
+	// Javier: Prueba del toString() y suma
 	std::cout << "Suma de valor 1 y valor 2: " << std::endl;
-	//std::cout << x_plus_y->toString();
+	std::cout << x_plus_y->toString();
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	// Javier: Prueba del toString() y resta
+	std::cout << "Resta de valor 1 y valor 2: " << std::endl;
+	std::cout << x_less_y->toString();
+	std::cout << std::endl;
 	std::cout << std::endl;
 
 	delete x;

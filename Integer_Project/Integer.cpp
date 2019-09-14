@@ -167,14 +167,15 @@ Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 	return *result;
 }
 /*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
-pero a sirve para probar y di cumple lo que se espera de esto*/
+pero di sirve para probar y di cumple lo que se espera de esto*/
 
 //Returns string of the digits of Integer
 std::string Integer::toString() {
 
-	std::stringstream stringInteger; // Stringstream in which all the digits from Integer are stored
-	std::stringstream actualStringInteger; // Stringstream in which there are no extra zeros (i.e. 00002 would be saved as 2 in this stringstream)
-	std::string noExtraZeros; // Used to create actualStringInteger
+	std::stringstream stringIntegerD; // Stringstream in which the digits of a Node are stored
+	std::string stringInteger=""; // String in which all the digits of Integer are stored, but with the extra zeros
+	std::stringstream actualStringInteger; // Stringstream in which there are no extra zeros 
+	                                       //(i.e. 00002 would be saved as 2 in this stringstream)
 
 	Nodo* aux = first;
 	short int digits=0;
@@ -187,44 +188,54 @@ std::string Integer::toString() {
 
 			digits = aux->v[i];
 
+			// To check if there is a need to add zeros, because each cell saves 4 digits 
 			if (digits < 10) {
-				stringInteger << "000" << digits;
+				stringIntegerD << "000" << digits;
 				continue;
 			}
 
 			if (digits < 100) {
-				stringInteger << "00" << digits;
+				stringIntegerD << "00" << digits;
 				continue;
 			}
 
-			if (first->v[i] < 1000) {
-				stringInteger << "0" << digits;
+			if (digits < 1000) {
+				stringIntegerD << "0" << digits;
 				continue;
 			}
 
-			stringInteger << digits;
-
+			stringIntegerD << digits;
 		
 		}
 
-		aux = aux->next;
+		stringInteger =  stringIntegerD.str() + stringInteger; // To save the digits in order
+		stringIntegerD.str(""); // The string is emptied to save only the next batch of digits
+		aux = aux->next; // we move to the next node
 	}
+
+
+
+	// If the Integer is negative then a minus sign is added in the stringstream
+	if (!sign)
+		actualStringInteger << "-";
 
 	// The following for is to create a stringstream where there are no extra zeros
 
-	noExtraZeros = stringInteger.str(); 
 	bool startPrintingActualNumber = false; // To know when to start getting numbers
 
-	for (int i = 0; i < noExtraZeros.length(); i++) {
+	for (int i = 0; i < stringInteger.length(); i++) {
 
-		if (noExtraZeros[i] != '0') // Is true when the number starts
+		if (stringInteger[i] != '0') // Is true when the number starts
 			startPrintingActualNumber = true;
 
 		if (startPrintingActualNumber)
-			actualStringInteger  << noExtraZeros[i];
+			actualStringInteger  << stringInteger[i];
 	}
 
-	actualStringInteger << '\n';
+	// If startPrintingActualNumber is false after the cicle, it's because what was stored was the number ZERO
+	if (!startPrintingActualNumber)
+		actualStringInteger << '0';
+
 
 	return actualStringInteger.str();
 
