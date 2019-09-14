@@ -10,7 +10,10 @@
 #define V_TAM 5
 
 #include <string>
-using std::string; // mae yo creo que al tigre no le va a cuadrar esto XD 
+// mae yo creo que al tigre no le va a cuadrar esto XD 
+/*Javier: Ah mae se me olvidó quitarle eso del using std::string, lo había puesto cuando pensaba que no me estaba sirviendo
+los metodos del string, sigue tirandome como que estuviera mal pero si compila y ejecuta eso, debe ser porque
+estamos haciendo las varas en dos versiones de visual o algo así*/
 #include<iostream>
 
 
