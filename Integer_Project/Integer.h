@@ -10,7 +10,7 @@
 #define V_TAM 5
 
 #include <string>
-using std::string;
+using std::string; // mae yo creo que al tigre no le va a cuadrar esto XD 
 #include<iostream>
 
 
@@ -25,7 +25,6 @@ struct Nodo{
 class Integer {
 private:
 	bool sign; // true->positive || false->negative
-
 	void nodos_copy(Nodo*, const Nodo*);
 
 public:
@@ -33,7 +32,8 @@ public:
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
-	Integer& sum_2(Integer&, Integer&);
+	Integer& sum(Integer&, Integer&); // Sum of two Integer's
+	Integer& substract(Integer&, Integer&);  // Substraction of tow Integer's
 
 	//friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
 	std::string toString(); // Method to convert Integer into a string to print it

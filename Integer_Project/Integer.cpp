@@ -41,6 +41,7 @@ Integer::Integer(int n) : sign(true) {
 }
 
 Integer::Integer(long n): sign(true) {
+
 	if (n < ZERO) {
 		sign = false; n *= -1;
 	}
@@ -62,7 +63,6 @@ Integer::Integer(long n): sign(true) {
 }
 
 void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
-
 	for (int x = 0; n; x++) { 
 		if (x == V_TAM) { 
 			n = n->next; x = -1;
@@ -76,7 +76,7 @@ void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
 	}
 }
 
-Integer& Integer::sum_2(Integer& n_1, Integer& n_2) {
+Integer& Integer::sum(Integer& n_1, Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
 	// if (!n_1.first || !n_2.first) { throw 1; } 
@@ -122,7 +122,55 @@ Integer& Integer::sum_2(Integer& n_1, Integer& n_2) {
 	return *result;
 }
 
+Integer& Integer::substract(Integer& n_1, Integer& n_2) {
 
+	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
+	// if (!n_1.first || !n_2.first) { throw 1; } 
+
+	// Variables auxilires
+	int substract; bool borrow = false;
+	Integer* result = new Integer();
+	Nodo *aux_1 = n_1.first, *aux_2 = n_2.first, *aux_3 = new Nodo();
+	result->first = aux_3;
+
+	for (int x = 0; aux_1 ; x++) {
+
+		if (aux_1->v[x] < ZERO) {
+			aux_3->v[x] = (DIGITS_CANT - ONE) - aux_2->v[x];
+		}
+		else {
+			substract = aux_1->v[x] - aux_2->v[x];
+
+			if (substract < ZERO) {
+				borrow = true;
+				aux_3->v[x] = DIGITS_CANT + substract;
+			}
+			else {
+				borrow = false;
+				aux_3->v[x] = substract;
+			}
+		}
+		if (x == V_TAM - ONE) {
+			// Aquí se avanza el siguiente nodo, se verifica si hay que llevar carry
+			// o si alguno de los integers ya terminó y la otra no, en ese caso solo 
+			// se copia el resto de nodos del Integer que no ha terminado.
+			aux_2 = aux_2->next; aux_1 = aux_1->next;
+			x = -1;
+			if (aux_1) {
+				aux_3->next = new Nodo();
+				aux_3 = aux_3->next;
+				aux_1->v[ZERO] -= borrow;
+				if (aux_1 && !aux_2) { nodos_copy(aux_3, aux_1); return *result; }
+			}
+		}
+		else {
+			aux_1->v[x + ONE] -= borrow;
+		}
+	}
+
+	return *result;
+
+}
 /*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
 pero a sirve para probar y di cumple lo que se espera de esto*/
 

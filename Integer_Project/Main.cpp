@@ -13,7 +13,17 @@ int main(int argc, char* argv[]) {
 
 	Integer* x = new Integer(_long);
 	Integer* y = new Integer(_long2);
-	Integer* x_plus_y = &(x->sum_2(*x, *y));
+	x->first->v[4] = 2;
+	x->first->next = new Nodo();
+	x->first->next->next = nullptr;
+	x->first->next->v[4] = 123;
+
+	y->first->v[4] = 23;
+	y->first->next = new Nodo();
+	y->first->next->next = nullptr;
+	y->first->next->v[4] = 13;
+
+	Integer* x_plus_y = &(x->substract(*x, *y));
 
 	// Javier: Pruebas del toString();
 
