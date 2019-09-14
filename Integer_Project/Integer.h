@@ -24,16 +24,23 @@ struct Nodo{
 
 class Integer {
 private:
+
 	bool sign; // true->positive || false->negative
+
 	void nodos_copy(Nodo*, const Nodo*);
+	Integer& sum(Integer&, const Integer&); // Sum of two Integer's
+	Integer& substract(Integer&, const Integer&);  // Substraction of tow Integer's
 
 public:
+
 	struct Nodo* first;
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
-	Integer& sum(Integer&, Integer&); // Sum of two Integer's
-	Integer& substract(Integer&, Integer&);  // Substraction of tow Integer's
+
+	Integer& operator+(const Integer&);
+	Integer& operator-(const Integer&);
+	Integer& operator=(const Integer&);
 
 	//friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
 	std::string toString(); // Method to convert Integer into a string to print it

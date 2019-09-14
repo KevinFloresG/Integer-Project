@@ -76,7 +76,7 @@ void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
 	}
 }
 
-Integer& Integer::sum(Integer& n_1, Integer& n_2) {
+Integer& Integer::sum(Integer& n_1, const Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
 	// if (!n_1.first || !n_2.first) { throw 1; } 
@@ -118,28 +118,28 @@ Integer& Integer::sum(Integer& n_1, Integer& n_2) {
 			aux_3->v[x + ONE] = carry;
 		}
 	}
-
+	//aux_3->next = nullptr;
 	return *result;
 }
 
-Integer& Integer::substract(Integer& n_1, Integer& n_2) {
+Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
 	// if (!n_1.first || !n_2.first) { throw 1; } 
 
 	// Variables auxilires
-	int substract; bool borrow = false;
+	short int substract; bool borrow = false;
 	Integer* result = new Integer();
 	Nodo *aux_1 = n_1.first, *aux_2 = n_2.first, *aux_3 = new Nodo();
 	result->first = aux_3;
 
 	for (int x = 0; aux_1 ; x++) {
 
-		if (aux_1->v[x] < ZERO) {
+		if (aux_1->v[x] - borrow < ZERO) {
 			aux_3->v[x] = (DIGITS_CANT - ONE) - aux_2->v[x];
 		}
 		else {
-			substract = aux_1->v[x] - aux_2->v[x];
+			substract = aux_1->v[x] - aux_2->v[x] - borrow;
 
 			if (substract < ZERO) {
 				borrow = true;
@@ -159,21 +159,15 @@ Integer& Integer::substract(Integer& n_1, Integer& n_2) {
 			if (aux_1) {
 				aux_3->next = new Nodo();
 				aux_3 = aux_3->next;
-				aux_1->v[ZERO] -= borrow;
 				if (aux_1 && !aux_2) { nodos_copy(aux_3, aux_1); return *result; }
 			}
 		}
-		else {
-			aux_1->v[x + ONE] -= borrow;
-		}
 	}
-
+	//aux_3->next = nullptr;
 	return *result;
-
 }
 /*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
 pero a sirve para probar y di cumple lo que se espera de esto*/
-
 
 //Returns string of the digits of Integer
 std::string Integer::toString() {
@@ -234,4 +228,20 @@ std::string Integer::toString() {
 
 	return actualStringInteger.str();
 
+}
+
+Integer& Integer::operator+(const Integer& n_2) {
+	// se necesita la sobrecarga de los comparadores
+	return sum(*this, n_2);
+}
+
+Integer& Integer::operator-(const Integer& n_2) {
+	// se necesita la sobrecarga de los comparadores
+	return substract(*this, n_2);
+}
+
+Integer& Integer::operator=(const Integer& n_2) {
+	if (!this->first) { this->first = new Nodo(); }
+	nodos_copy(this->first, n_2.first);
+	return *this;
 }
