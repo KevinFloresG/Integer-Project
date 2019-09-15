@@ -4,6 +4,7 @@
 
 #include"Integer.h"
 #include <sstream>
+#include <vector>
 
 
 Integer::Integer() : sign(true), first(new Nodo()) {}
@@ -166,6 +167,45 @@ Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 	//aux_3->next = nullptr;
 	return *result;
 }
+Integer& Integer::multiplication(Integer& n_1, const Integer& n_2)
+{
+	std::string n_1_value = n_1.toString();
+	std::string n_2_value = n_2.toString();
+	int n_1_size = n_1_value.size();
+	int n_2_size = n_2_value.size();
+	int n_1_index = 0;
+	int n_2_index = 0;
+	//Vector to store the result
+	std::vector<int> vector_result(n_1_size + n_2_size,0);
+
+	for (int i = n_1_size - 1; i >= 0; i--) {
+		
+		int carry = 0;
+		int n_1 = (n_1_value[i])-48;
+		n_2_index = 0;
+		for (int j = n_2_size - 1; j >= 0; j--)
+		{
+			int n_2 = n_2_value[j]-48;
+			int sum = n_1 * n_2 + vector_result[n_1_index + n_2_index] + carry;
+			carry = sum / 10;
+			vector_result[n_1_index + n_2_index] = sum % 10;
+			n_2_index++;
+		}
+		if (carry > 0)
+			vector_result[n_1_index + n_2_index] += carry;
+		n_1_index++;
+	}
+	int result_index = vector_result.size() - 1;
+	while (result_index >= 0 && vector_result[result_index] == 0)
+		result_index--;
+
+	std::string string_result = "";
+	while (result_index >= 0)
+		string_result += std::to_string(vector_result[result_index--]);
+
+	return *parse(string_result);
+
+}
 /*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
 pero di sirve para probar y di cumple lo que se espera de esto*/
 
@@ -244,6 +284,11 @@ std::string Integer::toString() const{
 Integer& Integer::operator+(const Integer& n_2) {
 	// se necesita la sobrecarga de los comparadores
 	return sum(*this, n_2);
+}
+
+Integer& Integer::operator*(const Integer& n_2)
+{
+	return multiplication(*this, n_2);
 }
 
 void Integer::operator+=(const Integer& n_2){

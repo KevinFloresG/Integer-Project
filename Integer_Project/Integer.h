@@ -33,6 +33,7 @@ private:
 	void nodos_copy(Nodo*, const Nodo*);
 	Integer& sum(Integer&, const Integer&); // Sum of two Integer's
 	Integer& substract(Integer&, const Integer&);  // Substraction of tow Integer's
+	Integer& multiplication(Integer&, const Integer&);
 
 public:
 
@@ -42,6 +43,7 @@ public:
 	Integer(long);		// Constructor Overload (long)
 	static Integer* parse(std::string);
 	Integer& operator+(const Integer&);
+	Integer& operator*(const Integer&);
 	void operator +=(const Integer&);
 	Integer& operator-(const Integer&);
 	void operator-=(const Integer&);
