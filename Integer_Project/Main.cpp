@@ -90,29 +90,30 @@ int main(int argc, char* argv[]) {
 	//std::cout << std::endl;
 	//std::cout << std::endl;
 
-	//// Javier: Prueba del toString() y resta
+
+	 //Javier: Prueba del toString() y resta
 	//std::cout << "Resta de valor 1 y valor 2: " << std::endl;
-	//std::cout << x_less_y->toString();
+	//std::cout << *x_less_y;
 	//std::cout << std::endl;
 	//std::cout << std::endl;
 
-	std::cout << "Son iguales 1 y 2?" << std::endl << std::endl;
-	if(*x==*y)
-		std::cout<<"SI SON IGUALES"<< std::endl << std::endl;
+	std::cout << "Es valor 1 mayor que valor 2?" << std::endl << std::endl;
+	if(*x>*y)
+		std::cout<<"SI ES MAYOR"<< std::endl << std::endl;
 	else
-		std::cout << "NO SON IGUALES" << std::endl << std::endl;
+		std::cout << "NO ES MAYOR" << std::endl << std::endl;
 
-	std::cout << "Son iguales 2 y 3?" << std::endl << std::endl;
-	if (*y == *z)
-		std::cout << "SI SON IGUALES" << std::endl << std::endl;
+	std::cout << "Son diferentes 2 y 3?" << std::endl << std::endl;
+	if (*y != *z)
+		std::cout << "SI SON DIFERENTES" << std::endl << std::endl;
 	else
-		std::cout << "NO SON IGUALES" << std::endl << std::endl;
+		std::cout << "NO, SON IGUALES" << std::endl << std::endl;
 
-	std::cout << "Son iguales 1 y 3?" << std::endl << std::endl;
-	if (*x == *z)
-		std::cout << "SI SON IGUALES" << std::endl << std::endl;
+	std::cout << "Es valor 1 mayor a 3?" << std::endl << std::endl;
+	if (*x > *z)
+		std::cout << "SI ES MAYOR" << std::endl << std::endl;
 	else
-		std::cout << "NO SON IGUALES" << std::endl << std::endl;
+		std::cout << "NO ES MAYOR" << std::endl << std::endl;
 
 	delete x;
 	delete y;

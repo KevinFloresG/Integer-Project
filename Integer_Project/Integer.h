@@ -42,10 +42,16 @@ public:
 	Integer(long);		// Constructor Overload (long)
 	static Integer* parse(std::string);
 	Integer& operator+(const Integer&);
+	void operator +=(const Integer&);
 	Integer& operator-(const Integer&);
+	void operator-=(const Integer&);
 	Integer& operator=(const Integer&);
 	bool operator ==(const Integer&);
-
+	bool operator !=(const Integer&);
+	bool operator <(const Integer&);
+	bool operator >(const Integer&);
+	bool operator <=(const Integer&);
+	bool operator >=(const Integer&);
 	friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
 	std::string toString()const; // Method to convert Integer into a string to print it
 };

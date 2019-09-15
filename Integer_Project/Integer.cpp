@@ -246,9 +246,19 @@ Integer& Integer::operator+(const Integer& n_2) {
 	return sum(*this, n_2);
 }
 
+void Integer::operator+=(const Integer& n_2){
+	// Falta probar
+	*this = *this + n_2;
+}
+
 Integer& Integer::operator-(const Integer& n_2) {
 	// se necesita la sobrecarga de los comparadores
 	return substract(*this, n_2);
+}
+
+void Integer::operator-=(const Integer& n_2){
+	// Falta probar
+	*this = *this - n_2;
 }
 
 Integer& Integer::operator=(const Integer& n_2) {
@@ -278,6 +288,69 @@ bool Integer::operator==(const Integer& n_2) {
 
 	return true; // If we get here then both Integers are equal
 
+}
+bool Integer::operator!=(const Integer& n_2){
+
+	if (*this == n_2)
+		return false;
+	else
+		return true;
+}
+bool Integer::operator<(const Integer& n_2){
+
+	if (*this == n_2) // We check if they are equal 
+		return false;
+
+	Nodo* aux1 = this->first;
+	Nodo* aux2 = n_2.first;
+	char smaller; // To know which one is lesser in case both of them are of the same amount of nodes
+
+	while (aux1 && aux2) {
+
+		// We change smaller according to the values of the nodes
+		for (int i = 0; i < V_TAM; i++) {
+			if (aux1->v[i] < aux2->v[i]) 
+				smaller = 'L';
+			else
+				if (aux1->v[i] > aux2->v[i])
+					smaller = 'R';
+		}
+
+		aux1 = aux1->next;
+		aux2 = aux2->next;
+
+		if ((aux1 && !aux2)) //If aux1 has more nodes than aux2 it is because aux1 is bigger
+			return false;
+		else
+			if ((!aux1 && aux2)) // If aux1 has less nodes then its smaller
+				return true;
+	}
+
+	if (smaller == 'L')
+		return true;
+	else
+		return false;
+
+	return false;
+}
+bool Integer::operator>(const Integer& n_2){
+	if (*this == n_2 || *this < n_2)
+		return false;
+	else
+		return true;
+}
+bool Integer::operator<=(const Integer& n_2){
+
+	if (*this < n_2 || *this == n_2)
+		return true;
+	else
+		return false;
+}
+bool Integer::operator>=(const Integer& n_2){
+	if (*this > n_2 || *this == n_2)
+		return true;
+	else
+		return false;
 }
 Integer* Integer::parse(std::string number)
 {
