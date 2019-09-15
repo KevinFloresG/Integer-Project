@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	int _int = 2;
 	long int _long = 234566123;
 	long int _long2 = 129749302;
-
+	std::string num_test = "123456567856845235234123123129837293857234985618286537163571263512";
 	Integer *x = new Integer(_long);
 	x->first->next = new Nodo;
 	x->first->next->next = nullptr;
@@ -20,6 +20,9 @@ int main(int argc, char* argv[]) {
 	x->first->next->v[3] = 0;
 	x->first->next->v[4] = 23;
 	// x = 23 0000 9863 0783 0123 0000 0000 0002 3456 6123
+	std::cout << num_test << std::endl;
+	std::cout << "Testing parse" << std::endl;
+	std::cout << Integer::parse(num_test)->toString() << std::endl;
 
 
 	// Salida: 23000098630783012300000000000234566123

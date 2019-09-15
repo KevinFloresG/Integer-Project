@@ -40,7 +40,7 @@ public:
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
-
+	static Integer* parse(std::string);
 	Integer& operator+(const Integer&);
 	Integer& operator-(const Integer&);
 	Integer& operator=(const Integer&);

@@ -6,7 +6,7 @@
 #include <sstream>
 
 
-Integer::Integer() : sign(true), first(nullptr) {}
+Integer::Integer() : sign(true), first(new Nodo()) {}
 
 Integer::Integer(int n) : sign(true) {
 	if (n < ZERO) { 
@@ -279,7 +279,41 @@ bool Integer::operator==(const Integer& n_2) {
 	return true; // If we get here then both Integers are equal
 
 }
+Integer* Integer::parse(std::string number)
+{
+	Integer* new_integer = new Integer();
+	Nodo* aux = new Nodo();
+	aux = new_integer->first;
+	int number_len = number.size();
+	int vector_position = 0;
+	std::string num_group = "";
+	std::string test;
 
+	short int test2;
+	for (int i = 0; i < number_len; i++) {
+
+		num_group = number.back() + num_group;
+		number.pop_back();
+
+		if (vector_position > 4) {
+			aux->next = new Nodo();
+			aux = aux->next;
+			vector_position = 0;
+
+		}
+		if (number.size() <= num_group.size()) {
+			aux->v[vector_position] = stoi(num_group);
+		}
+		if (num_group.size() >= 4) {
+			aux->v[vector_position] = stoi(num_group);
+			vector_position += 1;
+			num_group = "";
+
+		}
+	}
+
+	return new_integer;
+}
 // Overload of << Operator using the method toString()
 std::ostream& operator <<(std::ostream& exit, const Integer& node) {
 	exit << node.toString();
