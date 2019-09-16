@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
 	int _int = 2;
 	long int _long = 234566123;
 	long int _long2 = 129749302;
-	std::string num_test = "1235421415454545454545454544000000000000000000000000000000";
+	std::string num_test = "1000";
 	std::string num_test_2 = "1714546546546545454544548544544545";
 	Integer *x = new Integer(_long);
 	x->first->next = new Nodo;
@@ -23,16 +23,19 @@ int main(int argc, char* argv[]) {
 	// x = 23 0000 9863 0783 0123 0000 0000 0002 3456 6123
 	std::cout << num_test << std::endl;
 	std::cout << "Testing parse" << std::endl;
-	std::cout << Integer::parse(num_test)->toString() << std::endl;
+	std::cout << Integer::Parse(num_test)->toString() << std::endl;
 	std::cout << "Testing multiplication" << std::endl;
 	Integer* mul_test = new Integer();
 	
-	Integer* n1_test = Integer::parse(num_test);
-	Integer* n2_test = Integer::parse(num_test_2);
-	n1_test->toString();
+	Integer* n1_test = Integer::Parse(num_test);
+	Integer* n2_test = Integer::Parse(num_test_2);
 	*mul_test = *n1_test * *n2_test;
 
 	std::cout << mul_test->toString() << std::endl;
+
+	std::cout << "Factorial" << std::endl;
+	std::cout << Integer::Factorial(Integer::Parse(num_test))->toString() << std::endl;
+
 	// Salida: 23000098630783012300000000000234566123
 	// 23 0000 9863 0783 0123 0000 0000 0002 3456 6123
 
@@ -106,7 +109,7 @@ int main(int argc, char* argv[]) {
 	//std::cout << std::endl;
 
 	std::cout << "Es valor 1 mayor que valor 2?" << std::endl << std::endl;
-	if(*x>*y)
+	if(*Integer::Parse("1")>=*y)
 		std::cout<<"SI ES MAYOR"<< std::endl << std::endl;
 	else
 		std::cout << "NO ES MAYOR" << std::endl << std::endl;

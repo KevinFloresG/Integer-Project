@@ -176,7 +176,7 @@ Integer& Integer::multiplication(Integer& n_1, const Integer& n_2)
 	int n_1_index = 0;
 	int n_2_index = 0;
 	//Vector to store the result
-	std::vector<int> vector_result(n_1_size + n_2_size,0);
+	Vector* vector_result = new Vector(n_1_size + n_2_size);
 
 	for (int i = n_1_size - 1; i >= 0; i--) {
 		
@@ -186,24 +186,24 @@ Integer& Integer::multiplication(Integer& n_1, const Integer& n_2)
 		for (int j = n_2_size - 1; j >= 0; j--)
 		{
 			int n_2 = n_2_value[j]-48;
-			int sum = n_1 * n_2 + vector_result[n_1_index + n_2_index] + carry;
+			int sum = n_1 * n_2 + vector_result->GetPosition(n_1_index + n_2_index) + carry;
 			carry = sum / 10;
-			vector_result[n_1_index + n_2_index] = sum % 10;
+			vector_result->Add(n_1_index + n_2_index,  sum % 10);
 			n_2_index++;
 		}
 		if (carry > 0)
-			vector_result[n_1_index + n_2_index] += carry;
+			vector_result->AddCarry(n_1_index + n_2_index , carry);
 		n_1_index++;
 	}
-	int result_index = vector_result.size() - 1;
-	while (result_index >= 0 && vector_result[result_index] == 0)
+	int result_index = vector_result->GetSize()-1 ;
+	while (result_index >= 0 && vector_result->GetPosition(result_index) == 0)
 		result_index--;
 
 	std::string string_result = "";
 	while (result_index >= 0)
-		string_result += std::to_string(vector_result[result_index--]);
+		string_result += std::to_string(vector_result->GetPosition(result_index--));
 
-	return *parse(string_result);
+	return *Parse(string_result);
 
 }
 /*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
@@ -306,8 +306,11 @@ void Integer::operator-=(const Integer& n_2){
 	*this = *this - n_2;
 }
 
+
+
 Integer& Integer::operator=(const Integer& n_2) {
 	if (!this->first) { this->first = new Nodo(); }
+	this->vaciar();
 	nodos_copy(this->first, n_2.first);
 	return *this;
 }
@@ -397,7 +400,7 @@ bool Integer::operator>=(const Integer& n_2){
 	else
 		return false;
 }
-Integer* Integer::parse(std::string number)
+Integer* Integer::Parse(std::string number)
 {
 	Integer* new_integer = new Integer();
 	Nodo* aux = new Nodo();
@@ -413,7 +416,7 @@ Integer* Integer::parse(std::string number)
 		num_group = number.back() + num_group;
 		number.pop_back();
 
-		if (vector_position > 4) {
+		if (vector_position > NUM_TAM) {
 			aux->next = new Nodo();
 			aux = aux->next;
 			vector_position = 0;
@@ -422,7 +425,7 @@ Integer* Integer::parse(std::string number)
 		if (number.size() <= num_group.size()) {
 			aux->v[vector_position] = stoi(num_group);
 		}
-		if (num_group.size() >= 4) {
+		if (num_group.size() >= NUM_TAM) {
 			aux->v[vector_position] = stoi(num_group);
 			vector_position += 1;
 			num_group = "";
@@ -431,6 +434,41 @@ Integer* Integer::parse(std::string number)
 	}
 
 	return new_integer;
+}
+Integer* Integer::Factorial(Integer* number)
+{	
+	Integer* result = new Integer(0);
+	Integer* index = new Integer(1);
+	Integer* increment = new Integer(1);
+	*result = *index;
+	*result = *increment;
+	*result = *index;
+	for (*index; *index <= *number; *index = *index + *increment) {
+		
+		*result = *result * *index;
+		
+	}
+	return result;
+}
+/*Integer& operator++(const Integer& number)
+{
+	Integer* increment = new Integer(1);
+	return *number + *increment;
+	
+}*/
+
+void Integer::vaciar() {
+	if (!first) {
+		return;
+	}
+	Nodo* aux = first->next;
+	while (aux) {
+		delete first;
+		first = aux;
+		aux = aux->next;
+	}
+	delete first;
+	first = new Nodo();
 }
 // Overload of << Operator using the method toString()
 std::ostream& operator <<(std::ostream& exit, const Integer& node) {
