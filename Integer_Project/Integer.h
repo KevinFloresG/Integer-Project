@@ -33,6 +33,7 @@ private:
 
 	void vaciar();
 	void nodos_copy(Nodo*, const Nodo*);
+	void add_digits(short int); //Insert number in a beginning of a Integer.
 	Integer& sum(Integer&, const Integer&); // Sum of two Integer's
 	Integer& substract(Integer&, const Integer&);  // Substraction of tow Integer's
 	Integer& multiplication(Integer&, const Integer&);
