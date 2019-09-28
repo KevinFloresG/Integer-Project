@@ -65,14 +65,27 @@ int main(int argc, char* argv[]) {
 	*/
 	Integer *x_plus_y = new Integer(1000);
 	Integer* Fibonacci = new Integer(1000);
+	/*Fibonacci->setSign(false);*/
 //	*x_plus_y = *x + *y;
 
 	//*x_plus_y = *x_plus_y * *x_plus_y;
-	std::cout << "Testing Factorial of 1000: " << std::endl;
-	std::cout << Integer::Factorial(x_plus_y)->toString() << std::endl;
-	std::cout << std::endl;
-	std::cout << "Testing Fibonacci with 1000: " << std::endl;
-	std::cout << Integer::Fibonacci(Fibonacci)->toString() << std::endl;
+	try {
+		std::cout << "Testing Factorial of 1000: " << std::endl;
+		std::cout << Integer::Factorial(x_plus_y)->toString() << std::endl;
+		std::cout << std::endl;
+		std::cout << "Testing Fibonacci with 1000: " << std::endl;
+		std::cout << Integer::Fibonacci(Fibonacci)->toString() << std::endl;
+	}
+
+	catch (MyExceptions& exc) {
+		std::cout << "Error: " << exc.what() << std::endl;
+		system("pause");
+	}
+
+	catch (...) {
+		std::cout << "Error: " << "Unknown Error" << std::endl;
+		system("pause");
+	}
 	//Integer* r = new Integer();
 	//*r = x->multiply_for_int(*x_plus_y, 9999, 10);
 	//std::cout << r->toString();
@@ -142,6 +155,9 @@ int main(int argc, char* argv[]) {
 	delete y;
 	delete x_plus_y;
 	delete x_less_y;*/
+
+	delete x_plus_y;
+	delete Fibonacci;
 
 	system("pause");
 	return 0;

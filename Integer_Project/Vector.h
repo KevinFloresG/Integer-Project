@@ -20,8 +20,6 @@ public:
 	void Add(int, int);
 	~Vector();
 
-
-
 };
 
 

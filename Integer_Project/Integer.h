@@ -13,6 +13,7 @@
 #include <string>
 #include<iostream>
 #include "Vector.h"
+#include "MyExceptions.h"
 
 //static const short int ZERO = 0;
 //static const short int ONE = 1;
@@ -41,6 +42,12 @@ public:
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
+	~Integer();         // Destructor (Javier: Pendiente, lo hice de un par de formas pero me tiraba block exception)
+
+	// Javier: set y get Sign no se si son necesarios, los cree simplemente para realizar una prueba
+	void setSign(bool);
+	bool getSign();
+
 	static Integer* Parse(std::string); // Method that turns a string into an instance of Integer
 	static Integer* Factorial(Integer*); // Method that allows to get the factorial or large numbers
 	static Integer* Fibonacci(Integer*); // Method that returns the n-th element of the Fibonacci succesion

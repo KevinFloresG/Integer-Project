@@ -17,16 +17,6 @@ Integer::Integer(int n) : sign(true) {
 	first->next = nullptr;
 	Nodo* aux = first; // se auto destruye al salir del metodo no? (la memoria del puntero se libera)
 
-	/*Javier: No esto seguro si se destruye o no, cualquier cosa poniendo un delete aux al final no deberíamos tener problemas
-	o sí ? (Siempre y cuado el ptr no este viendo el nodo al final, sino nullptr)
-
-	Kevin: es que si le ponemos delete va a borrar el nodo. 
-
-	Javier: Y si al final le asignamos null_ptr y luego si delete ? O no tiene sentido ?
-
-
-	*/
-
 	for (int x = 0; n; x++) {
 		if (x == V_TAM) {
 			aux->next = new Nodo();
@@ -63,6 +53,18 @@ Integer::Integer(long n): sign(true) {
 	}
 }
 
+Integer::~Integer(){
+	/*empty();*/
+}
+
+void Integer::setSign(bool b_value){
+	sign = b_value;
+}
+
+bool Integer::getSign(){
+	return sign;
+}
+
 void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
 	for (int x = 0; n; x++) { 
 		if (x == V_TAM) { 
@@ -80,7 +82,10 @@ void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
 Integer& Integer::addition(Integer& n_1, const Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
-	// if (!n_1.first || !n_2.first) { throw 1; } 
+	// Excepcion agregada
+	 if (!n_1.first || !n_2.first) { 
+		 throw MyExceptions("The first node of one of the integers doesn't exist"); 
+	 } 
 
 	// Variables auxilires
 	int sum; bool carry = false;
@@ -137,6 +142,12 @@ void Integer::verify(Integer& n) {
 }
 
 Integer& Integer::multiply_for_int(const Integer& integer, short int value, int ceros) {
+
+	//Exception
+	if (!integer.first) {
+		throw MyExceptions("The first node of the integer doesn't exist");
+	}
+
 	short int carry = 0; Integer *end = new Integer();
 	Nodo* result = end->first; short int x = 0, y = 0;
 	Nodo* aux = integer.first; int multiply;
@@ -181,6 +192,12 @@ Integer& Integer::multiply_for_int(const Integer& integer, short int value, int 
 }
 
 Integer& Integer::multiplication(Integer& n_1, const Integer& n_2) {
+
+	//Exception
+	if (!n_1.first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	std::vector<Integer> integers; Integer* result = new Integer();
 	short int ceros = 0; Nodo* aux = n_2.first;
 	short int x = 0;
@@ -201,7 +218,9 @@ Integer& Integer::multiplication(Integer& n_1, const Integer& n_2) {
 Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
-	// if (!n_1.first || !n_2.first) { throw 1; } 
+	if (!n_1.first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
 
 	// Variables auxilires
 	short int substract; bool borrow = false;
@@ -288,6 +307,10 @@ pero di sirve para probar y di cumple lo que se espera de esto*/
 //Returns string of the digits of Integer
 std::string Integer::toString() const{
 
+	if (!this->first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	std::stringstream stringIntegerD; // Stringstream in which the digits of a Node are stored
 	std::string stringInteger=""; // String in which all the digits of Integer are stored, but with the extra zeros
 	std::stringstream actualStringInteger; // Stringstream in which there are no extra zeros 
@@ -352,6 +375,8 @@ std::string Integer::toString() const{
 	if (!startPrintingActualNumber)
 		actualStringInteger << '0';
 
+	aux = nullptr;
+	delete aux;
 
 	return actualStringInteger.str();
 
@@ -359,25 +384,57 @@ std::string Integer::toString() const{
 
 Integer& Integer::operator+(const Integer& n_2) {
 	// se necesita la sobrecarga de los comparadores
+	// Para que en la suma ? No bastaria fijarse en sign  mandar a llamar a resta ?
+
+	//Exception
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	return addition(*this, n_2);
 }
 
-Integer& Integer::operator*(const Integer& n_2)
-{
+Integer& Integer::operator*(const Integer& n_2){
+
+	//Exception
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	return multiplication(*this, n_2);
 }
 
 void Integer::operator+=(const Integer& n_2){
+
+	//Exception
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	// Falta probar
 	*this = *this + n_2;
 }
 
 Integer& Integer::operator-(const Integer& n_2) {
+	//Exception
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	// se necesita la sobrecarga de los comparadores
+	//if (*this < n_2) {
+	//	return substract(n_2, *this); // Error por const con n_2
+	//}
+
 	return substract(*this, n_2);
 }
 
 void Integer::operator-=(const Integer& n_2){
+
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+	
 	// Falta probar
 	*this = *this - n_2;
 }
@@ -385,6 +442,7 @@ void Integer::operator-=(const Integer& n_2){
 
 
 Integer& Integer::operator=(const Integer& n_2) {
+
 	if (!this->first) { this->first = new Nodo(); }
 	this->empty();
 	nodos_copy(this->first, n_2.first);
@@ -393,13 +451,17 @@ Integer& Integer::operator=(const Integer& n_2) {
 
 bool Integer::operator==(const Integer& n_2) {
 
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	Nodo* aux1 = this->first;
 	Nodo* aux2 = n_2.first;
 
 	while (aux1 && aux2) {
 
 		for (int i = 0; i < V_TAM; i++)
-			if (aux1->v[i] != aux2->v[i]) // It an element from the array is different then ther are not equal
+			if (aux1->v[i] != aux2->v[i]) // If an element from the array is different then ther are not equal
 				return false;
 
 		aux1 = aux1->next;
@@ -415,6 +477,11 @@ bool Integer::operator==(const Integer& n_2) {
 }
 bool Integer::operator!=(const Integer& n_2){
 
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
+
 	if (*this == n_2)
 		return false;
 	else
@@ -422,26 +489,31 @@ bool Integer::operator!=(const Integer& n_2){
 }
 bool Integer::operator<(const Integer& n_2){
 
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
+
 	if (*this == n_2) // We check if they are equal 
 		return false;
 
-	Nodo* aux1 = this->first;
-	Nodo* aux2 = n_2.first;
+	Nodo* aux1 = this->first; // aux_1 is used to travel across the first Integer
+	Nodo* aux2 = n_2.first; // aux_2 is used to travel across the second Integer
 	char smaller; // To know which one is lesser in case both of them are of the same amount of nodes
 
 	while (aux1 && aux2) {
 
 		// We change smaller according to the values of the nodes
 		for (int i = 0; i < V_TAM; i++) {
-			if (aux1->v[i] < aux2->v[i]) 
+			if (aux1->v[i] < aux2->v[i]) //  Left/First Integer is smaller
 				smaller = 'L';
 			else
-				if (aux1->v[i] > aux2->v[i])
+				if (aux1->v[i] > aux2->v[i]) //  Right/Second Integer is smaller
 					smaller = 'R';
 		}
 
-		aux1 = aux1->next;
-		aux2 = aux2->next;
+		aux1 = aux1->next; // We move to the next node of the first Integer
+		aux2 = aux2->next; // We move to the next node of the second Integer
 
 		if ((aux1 && !aux2)) //If aux1 has more nodes than aux2 it is because aux1 is bigger
 			return false;
@@ -450,7 +522,7 @@ bool Integer::operator<(const Integer& n_2){
 				return true;
 	}
 
-	if (smaller == 'L')
+	if (smaller == 'L') // Returns true if first Integer was smaller, and false otherwise
 		return true;
 	else
 		return false;
@@ -458,19 +530,31 @@ bool Integer::operator<(const Integer& n_2){
 	return false;
 }
 bool Integer::operator>(const Integer& n_2){
-	if (*this == n_2 || *this < n_2)
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
+	if (*this == n_2 || *this < n_2) // If *this is equal or smaller than n_2 then it can't be bigger
 		return false;
 	else
 		return true;
 }
-bool Integer::operator<=(const Integer& n_2){
+bool Integer::operator<=(const Integer& n_2){ 
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
 
-	if (*this < n_2 || *this == n_2)
+
+	if (*this < n_2 || *this == n_2) // If *this is equal or smaller than n_2 then it returns true
 		return true;
 	else
 		return false;
 }
 bool Integer::operator>=(const Integer& n_2){
+	if (!this->first || !n_2.first) {
+		throw MyExceptions("The first node of one of the integers doesn't exist");
+	}
+
 	if (*this > n_2 || *this == n_2)
 		return true;
 	else
@@ -511,8 +595,15 @@ Integer* Integer::Parse(std::string number)
 
 	return new_integer;
 }
-Integer* Integer::Factorial(Integer* number)
-{	
+Integer* Integer::Factorial(Integer* number){	
+
+	// Sirve con negativos ?
+	if (!number->sign) {
+
+		throw MyExceptions("This factorial is only for positives");
+
+	}
+
 	Integer* result = new Integer(0);
 	Integer* index = new Integer(1);
 	Integer* increment = new Integer(1);
@@ -526,27 +617,40 @@ Integer* Integer::Factorial(Integer* number)
 	}
 	return result;
 }
-Integer* Integer::Fibonacci(Integer* n)
-{
-	// Time Complexity O(n)
-	if (n == 0)
+Integer* Integer::Fibonacci(Integer* n){
+	// Time Complexity O(n) , O(n2) ?
+
+	if (!n->sign) {
+
+	throw MyExceptions("The term is negative");
+		
+	}
+
+	if (n == 0) // If the desired term is 0 then it is returned immediately
 		return new Integer(0);
 
 
-	Integer* i = new Integer(2);
-	Integer* add = new Integer(1);
+	Integer* i = new Integer(2); //Counter used to stop the succesion when we arrive at the desired term, since the first two terms
+								//of the succcesion are 1, this counter is initialized as 2
 
-	Integer* aux_1 = new Integer(1);
-	Integer* aux_2 = new Integer(1);
+	Integer* add = new Integer(1); // Integer used to increase i by one
+
+	Integer* aux_1 = new Integer(1); // aux_1 will act as the n-2_th term of the succesion
+	Integer* aux_2 = new Integer(1); // aux_2 will act as the n-1_th term of the succesion
 	Integer* aux_3 = new Integer(0); // Result of the operation
 
 	for (i; *i < *n; *i = *i + *add) {
-		*aux_3 = *aux_1 + *aux_2;
-		*aux_1 = *aux_2;
-		*aux_2 = *aux_3;
+
+		*aux_3 = *aux_1 + *aux_2; // We get the current term by adding aux_1 to aux_2 or viceversa
+		aux_1->empty(); // We empty aux_1 
+		*aux_1 = *aux_2; // The value of aux_2 is assigned to aux_1
+		aux_2->empty(); // We empty aux_2 
+		*aux_2 = *aux_3; // The value of aux_3 is assigned to aux_2
 
 	}
-	return aux_3;
+	aux_2->empty(); // We empty aux_2 one last time because it has the same value of aux_3
+
+	return aux_3; // The n_th term is returned
 }
 /*Integer& operator++(const Integer& number)
 {
