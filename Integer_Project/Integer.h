@@ -30,17 +30,18 @@ class Integer {
 private:
 
 	bool sign; // true->positive || false->negative
-
+	struct Nodo* first;
 	void vaciar();
 	void nodos_copy(Nodo*, const Nodo*);
-	void add_digits(short int); //Insert number in a beginning of a Integer.
+	 //Insert number in a beginning of a Integer.
+	static void verify(Integer&);
 	Integer& sum(Integer&, const Integer&); // Sum of two Integer's
 	Integer& substract(Integer&, const Integer&);  // Substraction of tow Integer's
 	Integer& multiplication(Integer&, const Integer&);
 
 public:
+	static Integer& multiply_for_int(const Integer&, short int, int);
 
-	struct Nodo* first;
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)

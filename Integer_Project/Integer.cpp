@@ -7,7 +7,7 @@
 #include <vector>
 
 
-Integer::Integer() : sign(true), first(new Nodo()) {}
+Integer::Integer() : sign(true), first(new Nodo()) { first->next = nullptr; }
 
 Integer::Integer(int n) : sign(true) {
 	if (n < ZERO) { 
@@ -123,6 +123,81 @@ Integer& Integer::sum(Integer& n_1, const Integer& n_2) {
 	return *result;
 }
 
+void Integer::verify(Integer& n) {
+	// verifica si el ultimo nodo vale cero
+	Nodo* aux = n.first;
+	Nodo* aux_prev = aux;
+	while (aux->next) { aux_prev = aux;  aux = aux->next; }
+	if (aux != n.first) {
+		for (int x = 0; x <= V_TAM; x++){
+			if (x == V_TAM) { delete aux; aux_prev->next = nullptr; break; }
+			else { if (aux->v[x] != 0) break; }
+		}
+	}
+}
+
+Integer& Integer::multiply_for_int(const Integer& integer, short int value, int ceros) {
+	short int carry = 0; Integer *end = new Integer();
+	Nodo* result = end->first; short int x = 0, y = 0;
+	Nodo* aux = integer.first; int multiply;
+	if (ceros > ZERO) { 
+		while (ceros >= V_TAM) {
+			result->next = new Nodo();
+			result = result->next;
+			result->next = nullptr;
+			ceros -= V_TAM;
+		}
+		y = ceros;
+	}
+	while(aux && x < V_TAM) {
+		multiply = (aux->v[x] * value) + carry;
+		if (multiply >= DIGITS_CANT) {
+			carry = multiply / DIGITS_CANT;
+			multiply %= DIGITS_CANT;
+		}
+		else { carry = 0; }
+		result->v[y] = (short int)multiply;
+		multiply = 0;
+		x++; y++;
+		if (y >= V_TAM) {
+			y = 0;
+			result->next = new Nodo();
+			result = result->next;
+			result->next = nullptr;
+		}
+		if (x >= V_TAM && aux->next) { 
+			x = 0; aux = aux->next; 
+		}
+	}
+	if (carry) { 
+		if (y >= V_TAM) {
+			result->next = new Nodo(); result = result->next;
+			result->v[ZERO] = carry; result->next = nullptr;
+		}
+		else { result->v[y] = carry; }
+	}
+	Integer::verify(*end);
+	return *end;
+}
+
+Integer& Integer::multiplication(Integer& n_1, const Integer& n_2) {
+	std::vector<Integer> integers; Integer* result = new Integer();
+	short int ceros = 0; Nodo* aux = n_2.first;
+	short int x = 0;
+	while (aux) {
+		while ( x < V_TAM){
+			integers.push_back(Integer::multiply_for_int(n_1, aux->v[x], ceros));
+			x++; ceros++;
+		}
+		x = 0; aux = aux->next;
+	}
+	for (Integer in : integers) { 
+		*result += in; 
+	}
+	integers.clear();
+	return *result;
+}
+
 Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
@@ -167,6 +242,7 @@ Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 	//aux_3->next = nullptr;
 	return *result;
 }
+/*
 Integer& Integer::multiplication(Integer& n_1, const Integer& n_2)
 {
 	std::string n_1_value = n_1.toString();
@@ -205,7 +281,7 @@ Integer& Integer::multiplication(Integer& n_1, const Integer& n_2)
 
 	return *Parse(string_result);
 
-}
+}*/
 /*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
 pero di sirve para probar y di cumple lo que se espera de esto*/
 

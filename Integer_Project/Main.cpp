@@ -13,6 +13,7 @@ int main(int argc, char* argv[]) {
 	std::string num_test = "1000";
 	std::string num_test_2 = "1714546546546545454544548544544545";
 	Integer *x = new Integer(_long);
+	/*
 	x->first->next = new Nodo;
 	x->first->next->next = nullptr;
 	x->first->next->v[0] = 123;
@@ -39,8 +40,8 @@ int main(int argc, char* argv[]) {
 	// Salida: 23000098630783012300000000000234566123
 	// 23 0000 9863 0783 0123 0000 0000 0002 3456 6123
 
-
-	Integer *y = new Integer(_long2);
+	*/
+	Integer *y = new Integer(_long2);/*
 	y->first->next = new Nodo;
 	y->first->next->next = nullptr;
 	y->first->next->v[0] = 777;
@@ -61,12 +62,18 @@ int main(int argc, char* argv[]) {
 	z->first->next->v[2] = 9863;
 	z->first->next->v[3] = 0;
 	z->first->next->v[4] = 23;
+	*/
+	Integer *x_plus_y = new Integer(1000);
+//	*x_plus_y = *x + *y;
 
-	Integer *x_plus_y = new Integer();
-	*x_plus_y = *x + *y;
+	//*x_plus_y = *x_plus_y * *x_plus_y;
+	std::cout << Integer::Factorial(x_plus_y)->toString() << std::endl;
+	//Integer* r = new Integer();
+	//*r = x->multiply_for_int(*x_plus_y, 9999, 10);
+	//std::cout << r->toString();
 	// x_plus_y = next = 33 1235 8507 0783 0900 0000 0000 0003 6431 5425 
 
-
+	/*
 	// Salida: 33123585070783090000000000000364315425
 	// 33 1235 8507 0783 0900 0000 0000 0003 6431 5425
 
@@ -125,11 +132,11 @@ int main(int argc, char* argv[]) {
 		std::cout << "SI ES MAYOR" << std::endl << std::endl;
 	else
 		std::cout << "NO ES MAYOR" << std::endl << std::endl;
-
+		
 	delete x;
 	delete y;
 	delete x_plus_y;
-	delete x_less_y;
+	delete x_less_y;*/
 
 	system("pause");
 	return 0;
