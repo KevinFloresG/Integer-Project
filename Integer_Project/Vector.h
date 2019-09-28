@@ -1,3 +1,8 @@
+// Vector.h
+// Authors: Kevin Flores, Philippe Gairaud, Javier Amador.
+// Description: Class of a vector of ints.
+
+
 #ifndef VECTOR_H
 #define VECTOR_H
 

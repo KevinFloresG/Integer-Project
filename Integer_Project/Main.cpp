@@ -1,5 +1,5 @@
 // Main.cpp
-//
+// Authors: Kevin Flores, Philippe Gairaud, Javier Amador.
 // Description: Main program.
 
 #include<iostream>
@@ -64,10 +64,15 @@ int main(int argc, char* argv[]) {
 	z->first->next->v[4] = 23;
 	*/
 	Integer *x_plus_y = new Integer(1000);
+	Integer* Fibonacci = new Integer(1000);
 //	*x_plus_y = *x + *y;
 
 	//*x_plus_y = *x_plus_y * *x_plus_y;
+	std::cout << "Testing Factorial of 1000: " << std::endl;
 	std::cout << Integer::Factorial(x_plus_y)->toString() << std::endl;
+	std::cout << std::endl;
+	std::cout << "Testing Fibonacci with 1000: " << std::endl;
+	std::cout << Integer::Fibonacci(Fibonacci)->toString() << std::endl;
 	//Integer* r = new Integer();
 	//*r = x->multiply_for_int(*x_plus_y, 9999, 10);
 	//std::cout << r->toString();

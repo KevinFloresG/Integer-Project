@@ -1,5 +1,5 @@
 // Integer.h
-//
+// Authors: Kevin Flores, Philippe Gairaud , Javier Amador.
 // Description: Class that can perform arithmetic operations with very large numbers.
 
 #ifndef INTEGER_H
@@ -11,10 +11,6 @@
 #define NUM_TAM 4
 
 #include <string>
-// mae yo creo que al tigre no le va a cuadrar esto XD 
-/*Javier: Ah mae se me olvidó quitarle eso del using std::string, lo había puesto cuando pensaba que no me estaba sirviendo
-los metodos del string, sigue tirandome como que estuviera mal pero si compila y ejecuta eso, debe ser porque
-estamos haciendo las varas en dos versiones de visual o algo así*/
 #include<iostream>
 #include "Vector.h"
 
@@ -31,13 +27,13 @@ private:
 
 	bool sign; // true->positive || false->negative
 	struct Nodo* first;
-	void vaciar();
+	void empty();
 	void nodos_copy(Nodo*, const Nodo*);
 	 //Insert number in a beginning of a Integer.
 	static void verify(Integer&);
-	Integer& sum(Integer&, const Integer&); // Sum of two Integer's
-	Integer& substract(Integer&, const Integer&);  // Substraction of tow Integer's
-	Integer& multiplication(Integer&, const Integer&);
+	Integer& addition(Integer&, const Integer&); // Addition of two Integers
+	Integer& substract(Integer&, const Integer&);  // Substraction of two Integers
+	Integer& multiplication(Integer&, const Integer&); // Multiplication of two Integers
 
 public:
 	static Integer& multiply_for_int(const Integer&, short int, int);
@@ -45,21 +41,22 @@ public:
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
-	static Integer* Parse(std::string);
-	static Integer* Factorial(Integer*);
-	Integer& operator+(const Integer&);
-	Integer& operator*(const Integer&);
-	void operator +=(const Integer&);
-	Integer& operator-(const Integer&);
-	void operator-=(const Integer&);
-	Integer& operator=(const Integer&);
-	bool operator ==(const Integer&);
-	bool operator !=(const Integer&);
-	bool operator <(const Integer&);
-	bool operator >(const Integer&);
-	bool operator <=(const Integer&);
-	bool operator >=(const Integer&);
-	friend Integer& operator++(const Integer&);
+	static Integer* Parse(std::string); // Method that turns a string into an instance of Integer
+	static Integer* Factorial(Integer*); // Method that allows to get the factorial or large numbers
+	static Integer* Fibonacci(Integer*); // Method that returns the n-th element of the Fibonacci succesion
+	Integer& operator+(const Integer&); // Operator + Overload
+	Integer& operator*(const Integer&); // Operator * Overload
+	void operator +=(const Integer&); // Operator += Overload
+	Integer& operator-(const Integer&); // Operator - Overload
+	void operator-=(const Integer&); // Operator -= Overload
+	Integer& operator=(const Integer&); // Operator = Overload
+	bool operator ==(const Integer&); // Operator == Overload
+	bool operator !=(const Integer&); // Operator != Overload
+	bool operator <(const Integer&); // Operator < Overload
+	bool operator >(const Integer&); // Operator > Overload
+	bool operator <=(const Integer&); // Operator <= Overload
+	bool operator >=(const Integer&); // Operator >= Overload
+	friend Integer& operator++(const Integer&); //Pending, unnecesary
 	friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
 	std::string toString()const; // Method to convert Integer into a string to print it
 };

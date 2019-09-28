@@ -1,5 +1,5 @@
 // Integer.cpp
-//
+// Authors: Kevin Flores, Philippe Gairaud, Javier Amador
 // Description: Implementation of Integer.h.
 
 #include"Integer.h"
@@ -77,7 +77,7 @@ void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
 	}
 }
 
-Integer& Integer::sum(Integer& n_1, const Integer& n_2) {
+Integer& Integer::addition(Integer& n_1, const Integer& n_2) {
 
 	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
 	// if (!n_1.first || !n_2.first) { throw 1; } 
@@ -359,7 +359,7 @@ std::string Integer::toString() const{
 
 Integer& Integer::operator+(const Integer& n_2) {
 	// se necesita la sobrecarga de los comparadores
-	return sum(*this, n_2);
+	return addition(*this, n_2);
 }
 
 Integer& Integer::operator*(const Integer& n_2)
@@ -386,7 +386,7 @@ void Integer::operator-=(const Integer& n_2){
 
 Integer& Integer::operator=(const Integer& n_2) {
 	if (!this->first) { this->first = new Nodo(); }
-	this->vaciar();
+	this->empty();
 	nodos_copy(this->first, n_2.first);
 	return *this;
 }
@@ -526,6 +526,28 @@ Integer* Integer::Factorial(Integer* number)
 	}
 	return result;
 }
+Integer* Integer::Fibonacci(Integer* n)
+{
+	// Time Complexity O(n)
+	if (n == 0)
+		return new Integer(0);
+
+
+	Integer* i = new Integer(2);
+	Integer* add = new Integer(1);
+
+	Integer* aux_1 = new Integer(1);
+	Integer* aux_2 = new Integer(1);
+	Integer* aux_3 = new Integer(0); // Result of the operation
+
+	for (i; *i < *n; *i = *i + *add) {
+		*aux_3 = *aux_1 + *aux_2;
+		*aux_1 = *aux_2;
+		*aux_2 = *aux_3;
+
+	}
+	return aux_3;
+}
 /*Integer& operator++(const Integer& number)
 {
 	Integer* increment = new Integer(1);
@@ -533,7 +555,7 @@ Integer* Integer::Factorial(Integer* number)
 	
 }*/
 
-void Integer::vaciar() {
+void Integer::empty() {
 	if (!first) {
 		return;
 	}

@@ -1,3 +1,7 @@
+// Vector.cpp
+// Authors: Kevin Flores, Philippe Gairaud, Javier Amador.
+// Description: Implementation of Vector.h
+
 #include "Vector.h"
 
 Vector::Vector(int size)
