@@ -7,7 +7,7 @@
 #define ZERO 0 //supuestamente no es recomendado en C++, pero así las define el profe...
 #define ONE 1 
 #define DIGITS_CANT 10000 //Por esto de divide o de modula un número para quitarle 4 dígitos
-#define V_TAM 5
+#define V_TAM 9
 #define NUM_TAM 4
 
 #include <string>

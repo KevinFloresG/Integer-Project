@@ -492,7 +492,7 @@ Integer* Integer::Parse(std::string number)
 		num_group = number.back() + num_group;
 		number.pop_back();
 
-		if (vector_position > NUM_TAM) {
+		if (vector_position >= V_TAM) {
 			aux->next = new Nodo();
 			aux = aux->next;
 			vector_position = 0;
