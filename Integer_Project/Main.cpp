@@ -72,6 +72,7 @@ int main(int argc, char* argv[]) {
 	try {
 		std::cout << "Testing Factorial of 1000: " << std::endl;
 		std::cout << Integer::Factorial(x_plus_y)->toString() << std::endl;
+		std::cout << Integer::Factorial(x_plus_y)->WastedMemory() << std::endl;
 		std::cout << std::endl;
 		std::cout << "Testing Fibonacci with 1000: " << std::endl;
 		std::cout << Integer::Fibonacci(Fibonacci)->toString() << std::endl;
@@ -86,75 +87,7 @@ int main(int argc, char* argv[]) {
 		std::cout << "Error: " << "Unknown Error" << std::endl;
 		system("pause");
 	}
-	//Integer* r = new Integer();
-	//*r = x->multiply_for_int(*x_plus_y, 9999, 10);
-	//std::cout << r->toString();
-	// x_plus_y = next = 33 1235 8507 0783 0900 0000 0000 0003 6431 5425 
-
-	/*
-	// Salida: 33123585070783090000000000000364315425
-	// 33 1235 8507 0783 0900 0000 0000 0003 6431 5425
-
-	Integer *x_less_y = new Integer();
-	*x_less_y = *x - *y;
-	// x_less_y = next = 12 8766 1219 0782 9346 0000 0000 0001 0481 6821
-
-	// Salida: 12876612190782934600000000000104816821
-	// 12 8766 1219 0782 9346 0000 0000 0001 0481 6821
-
-	// Javier: Pruebas del toString()
-
-	std::cout << "Valor 1: " << std::endl;
-	std::cout << *x; // Prueba sobrecarga de <<
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-	std::cout << "Valor 2: " << std::endl;
-	std::cout << y->toString();
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-	std::cout << "Valor 3: " << std::endl;
-	std::cout << z->toString();
-	std::cout << std::endl;
-	std::cout << std::endl;
-
-
-	//// Javier: Prueba del toString() y suma
-	//std::cout << "Suma de valor 1 y valor 2: " << std::endl;
-	//std::cout << x_plus_y->toString();
-	//std::cout << std::endl;
-	//std::cout << std::endl;
-
-
-	 //Javier: Prueba del toString() y resta
-	//std::cout << "Resta de valor 1 y valor 2: " << std::endl;
-	//std::cout << *x_less_y;
-	//std::cout << std::endl;
-	//std::cout << std::endl;
-
-	std::cout << "Es valor 1 mayor que valor 2?" << std::endl << std::endl;
-	if(*Integer::Parse("1")>=*y)
-		std::cout<<"SI ES MAYOR"<< std::endl << std::endl;
-	else
-		std::cout << "NO ES MAYOR" << std::endl << std::endl;
-
-	std::cout << "Son diferentes 2 y 3?" << std::endl << std::endl;
-	if (*y != *z)
-		std::cout << "SI SON DIFERENTES" << std::endl << std::endl;
-	else
-		std::cout << "NO, SON IGUALES" << std::endl << std::endl;
-
-	std::cout << "Es valor 1 mayor a 3?" << std::endl << std::endl;
-	if (*x > *z)
-		std::cout << "SI ES MAYOR" << std::endl << std::endl;
-	else
-		std::cout << "NO ES MAYOR" << std::endl << std::endl;
-		
-	delete x;
-	delete y;
-	delete x_plus_y;
-	delete x_less_y;*/
+	
 
 	delete x_plus_y;
 	delete Fibonacci;

@@ -20,7 +20,7 @@
 
 struct Nodo{
 	short int v[V_TAM];
-	struct Nodo* next;
+	struct Nodo* next = nullptr;
 };
 
 class Integer {
@@ -47,7 +47,8 @@ public:
 	// Javier: set y get Sign no se si son necesarios, los cree simplemente para realizar una prueba
 	void setSign(bool);
 	bool getSign();
-
+	int GetNodesCant();
+	int WastedMemory();
 	static Integer* Parse(std::string); // Method that turns a string into an instance of Integer
 	static Integer* Factorial(Integer*); // Method that allows to get the factorial or large numbers
 	static Integer* Fibonacci(Integer*); // Method that returns the n-th element of the Fibonacci succesion

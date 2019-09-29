@@ -677,3 +677,24 @@ std::ostream& operator <<(std::ostream& exit, const Integer& node) {
 	exit << node.toString();
 	return exit;
 }
+
+int Integer::GetNodesCant() {
+
+	Nodo* aux = new Nodo();
+	aux = first;
+	int cant = 1;
+	while (aux->next!= nullptr) {
+		
+		
+		cant++;
+		aux = aux->next;
+	}
+	return cant;
+}
+int Integer::WastedMemory() {
+
+	int wasted_memory;
+	wasted_memory = (this->GetNodesCant() * 36) - this->toString().size();
+
+	return wasted_memory;
+}
