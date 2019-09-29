@@ -10,13 +10,15 @@
 Integer::Integer() : sign(true), first(new Nodo()) { first->next = nullptr; }
 
 Integer::Integer(int n) : sign(true) {
+
+	//Int constructor
+	//Create a integer using int value
 	if (n < ZERO) { 
 		sign = false; n *= -1; 
 	}
 	first = new Nodo();
 	first->next = nullptr;
-	Nodo* aux = first; // se auto destruye al salir del metodo no? (la memoria del puntero se libera)
-
+	Nodo* aux = first; 
 	for (int x = 0; n; x++) {
 		if (x == V_TAM) {
 			aux->next = new Nodo();
@@ -25,7 +27,7 @@ Integer::Integer(int n) : sign(true) {
 			x = 0;
 		}
 		else {
-			aux->v[x] = (short int)(n % DIGITS_CANT); //el cast se hace aquí para usar 2 bytes.
+			aux->v[x] = (short int)(n % DIGITS_CANT); 
 			n /= DIGITS_CANT;
 		}
 	}
@@ -33,6 +35,8 @@ Integer::Integer(int n) : sign(true) {
 
 Integer::Integer(long n): sign(true) {
 
+	//Long constructor
+	//Create a integer using long value
 	if (n < ZERO) {
 		sign = false; n *= -1;
 	}
@@ -47,14 +51,14 @@ Integer::Integer(long n): sign(true) {
 			x = 0;
 		}
 		else {
-			aux->v[x] = (short int)(n % DIGITS_CANT); //el cast se hace aquí para usar 2 bytes.
+			aux->v[x] = (short int)(n % DIGITS_CANT); 
 			n /= DIGITS_CANT;
 		}
 	}
 }
 
 Integer::~Integer(){
-	/*empty();*/
+	/*Empty();*/
 }
 
 void Integer::setSign(bool b_value){
@@ -65,7 +69,7 @@ bool Integer::getSign(){
 	return sign;
 }
 
-void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
+void Integer::NodosCopy(Nodo* actual, const Nodo* n) {
 	for (int x = 0; n; x++) { 
 		if (x == V_TAM) { 
 			n = n->next; x = -1;
@@ -79,15 +83,15 @@ void Integer::nodos_copy(Nodo* actual, const Nodo* n) {
 	}
 }
 
-Integer& Integer::addition(Integer& n_1, const Integer& n_2) {
+Integer& Integer::Addition(Integer& n_1, const Integer& n_2) {
 
-	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
-	// Excepcion agregada
+	 //Returns the sum of two Integers
+
 	 if (!n_1.first || !n_2.first) { 
 		 throw MyExceptions("The first node of one of the integers doesn't exist"); 
 	 } 
 
-	// Variables auxilires
+
 	int sum; bool carry = false;
 	Integer* result = new Integer();
 	Nodo *aux_1 = n_1.first, *aux_2 = n_2.first, *aux_3 = new Nodo();
@@ -107,29 +111,26 @@ Integer& Integer::addition(Integer& n_1, const Integer& n_2) {
 		}
 		
 		if (x == V_TAM - ONE) {
-			// Aquí se avanza el siguiente nodo, se verifica si hay que llevar carry
-			// o si alguno de los integers ya terminó y la otra no, en ese caso solo 
-			// se copia el resto de nodos del Integer que no ha terminado.
 			aux_2 = aux_2->next; aux_1 = aux_1->next; 
 			x = -1;
 			if (carry || aux_1 || aux_2) {
 				aux_3->next = new Nodo();
 				aux_3 = aux_3->next;
 				aux_3->v[ZERO] = carry;
-				if (aux_1 && !aux_2) { nodos_copy(aux_3, aux_1); return *result; }
-				if (aux_2 && !aux_1) { nodos_copy(aux_3, aux_2); return *result; }
+				if (aux_1 && !aux_2) { NodosCopy(aux_3, aux_1); return *result; }
+				if (aux_2 && !aux_1) { NodosCopy(aux_3, aux_2); return *result; }
 			}
 		}
 		else {
 			aux_3->v[x + ONE] = carry;
 		}
 	}
-	//aux_3->next = nullptr;
 	return *result;
 }
 
-void Integer::verify(Integer& n) {
-	// verifica si el ultimo nodo vale cero
+void Integer::Verify(Integer& n) {
+
+	//Check if the value of the last node is zero
 	Nodo* aux = n.first;
 	Nodo* aux_prev = aux;
 	while (aux->next) { aux_prev = aux;  aux = aux->next; }
@@ -141,8 +142,10 @@ void Integer::verify(Integer& n) {
 	}
 }
 
-Integer& Integer::multiply_for_int(const Integer& integer, short int value, int ceros) {
+Integer& Integer::MultiplyForInt(const Integer& integer, short int value, int ceros) {
 
+	//Complementary method for multiplication
+	//Multiply a integer by short int value 
 	//Exception
 	if (!integer.first) {
 		throw MyExceptions("The first node of the integer doesn't exist");
@@ -187,12 +190,13 @@ Integer& Integer::multiply_for_int(const Integer& integer, short int value, int 
 		}
 		else { result->v[y] = carry; }
 	}
-	Integer::verify(*end);
+	Integer::Verify(*end);
 	return *end;
 }
 
-Integer& Integer::multiplication(Integer& n_1, const Integer& n_2) {
+Integer& Integer::Multiplication(Integer& n_1, const Integer& n_2) {
 
+	//Returns the multiplication of two integers
 	//Exception
 	if (!n_1.first || !n_2.first) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
@@ -203,7 +207,7 @@ Integer& Integer::multiplication(Integer& n_1, const Integer& n_2) {
 	short int x = 0;
 	while (aux) {
 		while ( x < V_TAM){
-			integers.push_back(Integer::multiply_for_int(n_1, aux->v[x], ceros));
+			integers.push_back(Integer::MultiplyForInt(n_1, aux->v[x], ceros));
 			x++; ceros++;
 		}
 		x = 0; aux = aux->next;
@@ -215,15 +219,16 @@ Integer& Integer::multiplication(Integer& n_1, const Integer& n_2) {
 	return *result;
 }
 
-Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
+Integer& Integer::Substract(Integer& n_1, const Integer& n_2) {
 
-	// hay que poner una excepcion supongo. En caso de que reciba Integers con first en null.
+	//Return the substraction of two integers
+	//Exception
 	if (!n_1.first || !n_2.first) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
-	// Variables auxilires
-	short int substract; bool borrow = false;
+	
+	short int Substract; bool borrow = false;
 	Integer* result = new Integer();
 	Nodo *aux_1 = n_1.first, *aux_2 = n_2.first, *aux_3 = new Nodo();
 	result->first = aux_3;
@@ -234,79 +239,34 @@ Integer& Integer::substract(Integer& n_1, const Integer& n_2) {
 			aux_3->v[x] = (DIGITS_CANT - ONE) - aux_2->v[x];
 		}
 		else {
-			substract = aux_1->v[x] - aux_2->v[x] - borrow;
+			Substract = aux_1->v[x] - aux_2->v[x] - borrow;
 
-			if (substract < ZERO) {
+			if (Substract < ZERO) {
 				borrow = true;
-				aux_3->v[x] = DIGITS_CANT + substract;
+				aux_3->v[x] = DIGITS_CANT + Substract;
 			}
 			else {
 				borrow = false;
-				aux_3->v[x] = substract;
+				aux_3->v[x] = Substract;
 			}
 		}
 		if (x == V_TAM - ONE) {
-			// Aquí se avanza el siguiente nodo, se verifica si hay que llevar carry
-			// o si alguno de los integers ya terminó y la otra no, en ese caso solo 
-			// se copia el resto de nodos del Integer que no ha terminado.
 			aux_2 = aux_2->next; aux_1 = aux_1->next;
 			x = -1;
 			if (aux_1) {
 				aux_3->next = new Nodo();
 				aux_3 = aux_3->next;
-				if (aux_1 && !aux_2) { nodos_copy(aux_3, aux_1); return *result; }
+				if (aux_1 && !aux_2) { NodosCopy(aux_3, aux_1); return *result; }
 			}
 		}
 	}
-	//aux_3->next = nullptr;
+
 	return *result;
 }
-/*
-Integer& Integer::multiplication(Integer& n_1, const Integer& n_2)
-{
-	std::string n_1_value = n_1.toString();
-	std::string n_2_value = n_2.toString();
-	int n_1_size = n_1_value.size();
-	int n_2_size = n_2_value.size();
-	int n_1_index = 0;
-	int n_2_index = 0;
-	//Vector to store the result
-	Vector* vector_result = new Vector(n_1_size + n_2_size);
 
-	for (int i = n_1_size - 1; i >= 0; i--) {
-		
-		int carry = 0;
-		int n_1 = (n_1_value[i])-48;
-		n_2_index = 0;
-		for (int j = n_2_size - 1; j >= 0; j--)
-		{
-			int n_2 = n_2_value[j]-48;
-			int sum = n_1 * n_2 + vector_result->GetPosition(n_1_index + n_2_index) + carry;
-			carry = sum / 10;
-			vector_result->Add(n_1_index + n_2_index,  sum % 10);
-			n_2_index++;
-		}
-		if (carry > 0)
-			vector_result->AddCarry(n_1_index + n_2_index , carry);
-		n_1_index++;
-	}
-	int result_index = vector_result->GetSize()-1 ;
-	while (result_index >= 0 && vector_result->GetPosition(result_index) == 0)
-		result_index--;
 
-	std::string string_result = "";
-	while (result_index >= 0)
-		string_result += std::to_string(vector_result->GetPosition(result_index--));
-
-	return *Parse(string_result);
-
-}*/
-/*Javier: Hay varias cosas que se pueden cambiar para que sea mejor (ya sea que se vea más ordenado o que sea más eficiente), 
-pero di sirve para probar y di cumple lo que se espera de esto*/
-
-//Returns string of the digits of Integer
 std::string Integer::toString() const{
-
+	//Returns string of the digits of Integer
 	if (!this->first) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
@@ -383,15 +343,13 @@ std::string Integer::toString() const{
 }
 
 Integer& Integer::operator+(const Integer& n_2) {
-	// se necesita la sobrecarga de los comparadores
-	// Para que en la suma ? No bastaria fijarse en sign  mandar a llamar a resta ?
 
 	//Exception
 	if (!this->first || !n_2.first) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
-	return addition(*this, n_2);
+	return Addition(*this, n_2);
 }
 
 Integer& Integer::operator*(const Integer& n_2){
@@ -401,7 +359,7 @@ Integer& Integer::operator*(const Integer& n_2){
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
-	return multiplication(*this, n_2);
+	return Multiplication(*this, n_2);
 }
 
 void Integer::operator+=(const Integer& n_2){
@@ -411,7 +369,6 @@ void Integer::operator+=(const Integer& n_2){
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
-	// Falta probar
 	*this = *this + n_2;
 }
 
@@ -421,21 +378,15 @@ Integer& Integer::operator-(const Integer& n_2) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
-	// se necesita la sobrecarga de los comparadores
-	//if (*this < n_2) {
-	//	return substract(n_2, *this); // Error por const con n_2
-	//}
-
-	return substract(*this, n_2);
+	return Substract(*this, n_2);
 }
 
 void Integer::operator-=(const Integer& n_2){
-
+	//Exception
 	if (!this->first || !n_2.first) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 	
-	// Falta probar
 	*this = *this - n_2;
 }
 
@@ -444,8 +395,8 @@ void Integer::operator-=(const Integer& n_2){
 Integer& Integer::operator=(const Integer& n_2) {
 
 	if (!this->first) { this->first = new Nodo(); }
-	this->empty();
-	nodos_copy(this->first, n_2.first);
+	this->Empty();
+	NodosCopy(this->first, n_2.first);
 	return *this;
 }
 
@@ -562,17 +513,16 @@ bool Integer::operator>=(const Integer& n_2){
 }
 Integer* Integer::Parse(std::string number)
 {
+	//This method create a integer using a string
 	Integer* new_integer = new Integer();
 	Nodo* aux = new Nodo();
 	aux = new_integer->first;
 	int number_len = number.size();
 	int vector_position = 0;
 	std::string num_group = "";
-	std::string test;
-
-	short int test2;
 	for (int i = 0; i < number_len; i++) {
 
+		//Take the elements of a string and group them in groups of 4
 		num_group = number.back() + num_group;
 		number.pop_back();
 
@@ -597,28 +547,31 @@ Integer* Integer::Parse(std::string number)
 }
 Integer* Integer::Factorial(Integer* number){	
 
-	// Sirve con negativos ?
+	//Returns the factorial of a number
+
+	//We convert the integer to positive
 	if (!number->sign) {
 
-		throw MyExceptions("This factorial is only for positives");
+		number->setSign(true);
 
 	}
 
-	Integer* result = new Integer(0);
+	Integer* result = new Integer(1);
 	Integer* index = new Integer(1);
-	Integer* increment = new Integer(1);
-	*result = *index;
-	*result = *increment;
-	*result = *index;
+	Integer* increment = new Integer(1); //To inncrease the index
+
 	for (*index; *index <= *number; *index = *index + *increment) {
 		
 		*result = *result * *index;
 		
 	}
+	delete index;
+	delete increment;
 	return result;
 }
 Integer* Integer::Fibonacci(Integer* n){
-	// Time Complexity O(n) , O(n2) ?
+
+	//Fibonacci sequence
 
 	if (!n->sign) {
 
@@ -642,24 +595,18 @@ Integer* Integer::Fibonacci(Integer* n){
 	for (i; *i < *n; *i = *i + *add) {
 
 		*aux_3 = *aux_1 + *aux_2; // We get the current term by adding aux_1 to aux_2 or viceversa
-		aux_1->empty(); // We empty aux_1 
+		aux_1->Empty(); // We Empty aux_1 
 		*aux_1 = *aux_2; // The value of aux_2 is assigned to aux_1
-		aux_2->empty(); // We empty aux_2 
+		aux_2->Empty(); // We Empty aux_2 
 		*aux_2 = *aux_3; // The value of aux_3 is assigned to aux_2
 
 	}
-	aux_2->empty(); // We empty aux_2 one last time because it has the same value of aux_3
+	aux_2->Empty(); // We Empty aux_2 one last time because it has the same value of aux_3
 
 	return aux_3; // The n_th term is returned
 }
-/*Integer& operator++(const Integer& number)
-{
-	Integer* increment = new Integer(1);
-	return *number + *increment;
-	
-}*/
 
-void Integer::empty() {
+void Integer::Empty() {
 	if (!first) {
 		return;
 	}
@@ -692,9 +639,18 @@ int Integer::GetNodesCant() {
 	return cant;
 }
 int Integer::WastedMemory() {
+	//Returns the wasted memory of the integer
+	// Number of bytes per node - Number of bytes used in the first node  + size of the next pointer of the last node
+	return NODE_SIZE - (((((this->toString().size() % NODE_SIZE) / NUM_TAM))+1) *2) + sizeof(this->GetLastNode()->next);
+}
 
-	int wasted_memory;
-	wasted_memory = (this->GetNodesCant() * 36) - this->toString().size();
+Nodo* Integer::GetLastNode()
+{	
+	//Returns the last element of teh Integer
+	Nodo* aux = this->first;
 
-	return wasted_memory;
+	while (aux->next != first) {
+		aux = aux->next;
+	}
+	return aux;
 }

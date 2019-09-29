@@ -4,19 +4,17 @@
 
 #ifndef INTEGER_H
 #define INTEGER_H
-#define ZERO 0 //supuestamente no es recomendado en C++, pero así las define el profe...
+#define ZERO 0 
 #define ONE 1 
-#define DIGITS_CANT 10000 //Por esto de divide o de modula un número para quitarle 4 dígitos
+#define DIGITS_CANT 10000 
 #define V_TAM 9
 #define NUM_TAM 4
+#define NODE_SIZE 18
 
 #include <string>
 #include<iostream>
-#include "Vector.h"
 #include "MyExceptions.h"
 
-//static const short int ZERO = 0;
-//static const short int ONE = 1;
 
 struct Nodo{
 	short int v[V_TAM];
@@ -28,27 +26,26 @@ private:
 
 	bool sign; // true->positive || false->negative
 	struct Nodo* first;
-	void empty();
-	void nodos_copy(Nodo*, const Nodo*);
+	void Empty();
+	void NodosCopy(Nodo*, const Nodo*);
 	 //Insert number in a beginning of a Integer.
-	static void verify(Integer&);
-	Integer& addition(Integer&, const Integer&); // Addition of two Integers
-	Integer& substract(Integer&, const Integer&);  // Substraction of two Integers
-	Integer& multiplication(Integer&, const Integer&); // Multiplication of two Integers
+	static void Verify(Integer&);
+	Integer& Addition(Integer&, const Integer&); // Addition of two Integers
+	Integer& Substract(Integer&, const Integer&);  // Substraction of two Integers
+	Integer& Multiplication(Integer&, const Integer&); // Multiplication of two Integers
 
 public:
-	static Integer& multiply_for_int(const Integer&, short int, int);
+	static Integer& MultiplyForInt(const Integer&, short int, int);
 
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
 	Integer(long);		// Constructor Overload (long)
-	~Integer();         // Destructor (Javier: Pendiente, lo hice de un par de formas pero me tiraba block exception)
-
-	// Javier: set y get Sign no se si son necesarios, los cree simplemente para realizar una prueba
+	~Integer();     
 	void setSign(bool);
 	bool getSign();
-	int GetNodesCant();
-	int WastedMemory();
+	int GetNodesCant(); //Return the number of nodes of the integer
+	int WastedMemory(); //Return wasted memory
+	Nodo* GetLastNode(); //Return the last node of the integer
 	static Integer* Parse(std::string); // Method that turns a string into an instance of Integer
 	static Integer* Factorial(Integer*); // Method that allows to get the factorial or large numbers
 	static Integer* Fibonacci(Integer*); // Method that returns the n-th element of the Fibonacci succesion
@@ -64,7 +61,6 @@ public:
 	bool operator >(const Integer&); // Operator > Overload
 	bool operator <=(const Integer&); // Operator <= Overload
 	bool operator >=(const Integer&); // Operator >= Overload
-	friend Integer& operator++(const Integer&); //Pending, unnecesary
 	friend std::ostream& operator << (std::ostream&, const Integer&); // << Operator Overload
 	std::string toString()const; // Method to convert Integer into a string to print it
 };
