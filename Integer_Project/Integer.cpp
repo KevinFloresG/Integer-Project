@@ -58,7 +58,8 @@ Integer::Integer(long n): sign(true) {
 }
 
 Integer::~Integer(){
-	/*Empty();*/
+	Empty(); 
+	delete first;
 }
 
 void Integer::setSign(bool b_value){
@@ -101,7 +102,7 @@ Integer& Integer::Addition(Integer& n_1, const Integer& n_2) {
 
 		sum = aux_1->v[x] + aux_2->v[x];
 
-		if (sum >= DIGITS_CANT) { 
+		if (sum >= DIGITS_CANT) { // Verifying if the sum have more than 4 digits
 			carry = true; 
 			aux_3->v[x] += sum % DIGITS_CANT;
 		}
@@ -110,19 +111,20 @@ Integer& Integer::Addition(Integer& n_1, const Integer& n_2) {
 			aux_3->v[x] += sum;
 		}
 		
-		if (x == V_TAM - ONE) {
+		if (x == V_TAM - ONE) { // The end of the node array
 			aux_2 = aux_2->next; aux_1 = aux_1->next; 
 			x = -1;
-			if (carry || aux_1 || aux_2) {
+			if (carry || aux_1 || aux_2) { // Adding new Node if is needed
 				aux_3->next = new Nodo();
 				aux_3 = aux_3->next;
 				aux_3->v[ZERO] = carry;
-				if (aux_1 && !aux_2) { NodosCopy(aux_3, aux_1); return *result; }
+				// Copy nodes if one of the two integers is finished already 
+				if (aux_1 && !aux_2) { NodosCopy(aux_3, aux_1); return *result; } 
 				if (aux_2 && !aux_1) { NodosCopy(aux_3, aux_2); return *result; }
 			}
 		}
 		else {
-			aux_3->v[x + ONE] = carry;
+			aux_3->v[x + ONE] = carry; // adding carry to the next position
 		}
 	}
 	return *result;
@@ -136,7 +138,7 @@ void Integer::Verify(Integer& n) {
 	while (aux->next) { aux_prev = aux;  aux = aux->next; }
 	if (aux != n.first) {
 		for (int x = 0; x <= V_TAM; x++){
-			if (x == V_TAM) { delete aux; aux_prev->next = nullptr; break; }
+			if (x == V_TAM) { delete aux; aux_prev->next = nullptr; break; } // Delete the node if it has only zeros
 			else { if (aux->v[x] != 0) break; }
 		}
 	}
@@ -154,16 +156,16 @@ Integer& Integer::MultiplyForInt(const Integer& integer, short int value, int ce
 	short int carry = 0; Integer *end = new Integer();
 	Nodo* result = end->first; short int x = 0, y = 0;
 	Nodo* aux = integer.first; int multiply;
-	if (ceros > ZERO) { 
+	if (ceros > ZERO) {	// adding zeros on the result
 		while (ceros >= V_TAM) {
 			result->next = new Nodo();
 			result = result->next;
 			result->next = nullptr;
 			ceros -= V_TAM;
 		}
-		y = ceros;
+		y = ceros; // putting de iterator for the result in the correct position after de ceros 
 	}
-	while(aux && x < V_TAM) {
+	while(aux && x < V_TAM) { // multiplying de short int value with the given integer
 		multiply = (aux->v[x] * value) + carry;
 		if (multiply >= DIGITS_CANT) {
 			carry = multiply / DIGITS_CANT;
@@ -183,14 +185,14 @@ Integer& Integer::MultiplyForInt(const Integer& integer, short int value, int ce
 			x = 0; aux = aux->next; 
 		}
 	}
-	if (carry) { 
-		if (y >= V_TAM) {
+	if (carry) { // Verifying if there is a missing carry
+		if (y >= V_TAM) { // Adding the missing carry
 			result->next = new Nodo(); result = result->next;
 			result->v[ZERO] = carry; result->next = nullptr;
 		}
 		else { result->v[y] = carry; }
 	}
-	Integer::Verify(*end);
+	Integer::Verify(*end); // Verifying the last node.
 	return *end;
 }
 
@@ -202,20 +204,22 @@ Integer& Integer::Multiplication(Integer& n_1, const Integer& n_2) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
-	std::vector<Integer> integers; Integer* result = new Integer();
+	std::vector<Integer*> integers = std::vector<Integer*>(); Integer* result = new Integer();
 	short int ceros = 0; Nodo* aux = n_2.first;
 	short int x = 0;
-	while (aux) {
+	while (aux) { // Go through the entire second integer
 		while ( x < V_TAM){
-			integers.push_back(Integer::MultiplyForInt(n_1, aux->v[x], ceros));
+			// Multiplying each position of the vectors that conform the second integer with de first integer
+			// and adding the result to the auxiliar list of integer's
+			integers.push_back(&Integer::MultiplyForInt(n_1, aux->v[x], ceros));
 			x++; ceros++;
 		}
 		x = 0; aux = aux->next;
 	}
-	for (Integer in : integers) { 
-		*result += in; 
+	for (Integer *in : integers) { 
+		*result += *in; // Sum of all resulting integers
 	}
-	integers.clear();
+	integers.clear(); // Deleting integer's
 	return *result;
 }
 
@@ -235,11 +239,14 @@ Integer& Integer::Substract(Integer& n_1, const Integer& n_2) {
 
 	for (int x = 0; aux_1 ; x++) {
 
+		// Substracting position to position and looking if is needed a borrow
+		// always the bigger integer is n_1.
+
 		if (aux_1->v[x] - borrow < ZERO) {
 			aux_3->v[x] = (DIGITS_CANT - ONE) - aux_2->v[x];
 		}
 		else {
-			Substract = aux_1->v[x] - aux_2->v[x] - borrow;
+			Substract = aux_1->v[x] - aux_2->v[x] - borrow; 
 
 			if (Substract < ZERO) {
 				borrow = true;
@@ -618,6 +625,7 @@ void Integer::Empty() {
 	}
 	delete first;
 	first = new Nodo();
+	first->next = nullptr;
 }
 // Overload of << Operator using the method toString()
 std::ostream& operator <<(std::ostream& exit, const Integer& node) {

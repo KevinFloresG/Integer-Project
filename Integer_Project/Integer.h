@@ -27,15 +27,14 @@ private:
 	bool sign; // true->positive || false->negative
 	struct Nodo* first;
 	void Empty();
-	void NodosCopy(Nodo*, const Nodo*);
-	 //Insert number in a beginning of a Integer.
-	static void Verify(Integer&);
+	void NodosCopy(Nodo*, const Nodo*); // Copy the following nodes of a given node
+	static void Verify(Integer&); // Verify that there are not only zeros in the last node
+	static Integer& MultiplyForInt(const Integer&, short int, int); // Multiply an Integer with a normal int and add zeros
 	Integer& Addition(Integer&, const Integer&); // Addition of two Integers
 	Integer& Substract(Integer&, const Integer&);  // Substraction of two Integers
 	Integer& Multiplication(Integer&, const Integer&); // Multiplication of two Integers
 
 public:
-	static Integer& MultiplyForInt(const Integer&, short int, int);
 
 	Integer();			// Default Constructor
 	Integer(int);		// Constructor Overload (int)
