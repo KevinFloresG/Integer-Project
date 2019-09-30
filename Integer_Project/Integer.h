@@ -41,7 +41,7 @@ public:
 	Integer(long);		// Constructor Overload (long)
 	~Integer();     
 	void setSign(bool);
-	bool getSign();
+	bool getSign()const;
 	int GetNodesCant(); //Return the number of nodes of the integer
 	int WastedMemory(); //Return wasted memory
 	Nodo* GetLastNode(); //Return the last node of the integer

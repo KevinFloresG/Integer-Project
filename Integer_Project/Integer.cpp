@@ -66,7 +66,7 @@ void Integer::setSign(bool b_value){
 	sign = b_value;
 }
 
-bool Integer::getSign(){
+bool Integer::getSign()const{
 	return sign;
 }
 
@@ -90,7 +90,11 @@ Integer& Integer::Addition(Integer& n_1, const Integer& n_2) {
 
 	 if (!n_1.first || !n_2.first) { 
 		 throw MyExceptions("The first node of one of the integers doesn't exist"); 
-	 } 
+	 }
+
+	 if (!n_1.getSign() || !n_2.getSign()) // If it is an addition of one or two negatives then it can be treated as a substraction
+		 return Substract(n_1, n_2);
+
 
 
 	int sum; bool carry = false;
@@ -149,6 +153,8 @@ Integer& Integer::MultiplyForInt(const Integer& integer, short int value, int ce
 	//Complementary method for multiplication
 	//Multiply a integer by short int value 
 	//Exception
+
+
 	if (!integer.first) {
 		throw MyExceptions("The first node of the integer doesn't exist");
 	}
@@ -193,6 +199,10 @@ Integer& Integer::MultiplyForInt(const Integer& integer, short int value, int ce
 		else { result->v[y] = carry; }
 	}
 	Integer::Verify(*end); // Verifying the last node.
+
+	if ((!integer.getSign() && value >= 0) || (integer.getSign() && value < 0)) // The sign is added if needed
+		end->setSign(false);
+
 	return *end;
 }
 
@@ -220,6 +230,10 @@ Integer& Integer::Multiplication(Integer& n_1, const Integer& n_2) {
 		*result += *in; // Sum of all resulting integers
 	}
 	integers.clear(); // Deleting integer's
+
+	if ((!n_1.getSign() && n_2.getSign()) || (n_1.getSign() && !n_2.getSign())) // The sign is added if needed
+		result->setSign(false);
+
 	return *result;
 }
 
@@ -385,6 +399,14 @@ Integer& Integer::operator-(const Integer& n_2) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
+	if (*this < n_2) {
+		Integer result;
+		Integer aux = n_2;
+		result = Substract(aux, *this);
+		result.setSign(false);
+		return result;
+	}
+
 	return Substract(*this, n_2);
 }
 
@@ -404,6 +426,7 @@ Integer& Integer::operator=(const Integer& n_2) {
 	if (!this->first) { this->first = new Nodo(); }
 	this->Empty();
 	NodosCopy(this->first, n_2.first);
+	this->setSign(n_2.getSign());
 	return *this;
 }
 
@@ -412,6 +435,9 @@ bool Integer::operator==(const Integer& n_2) {
 	if (!this->first || !n_2.first) {
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
+
+	if (this->getSign() != n_2.getSign())
+		return false;
 
 	Nodo* aux1 = this->first;
 	Nodo* aux2 = n_2.first;
@@ -451,6 +477,8 @@ bool Integer::operator<(const Integer& n_2){
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
+	if (!this->getSign() && n_2.getSign())
+		return true;
 
 	if (*this == n_2) // We check if they are equal 
 		return false;
@@ -492,6 +520,9 @@ bool Integer::operator>(const Integer& n_2){
 		throw MyExceptions("The first node of one of the integers doesn't exist");
 	}
 
+	if (this->getSign() && !n_2.getSign())
+		return true;
+
 	if (*this == n_2 || *this < n_2) // If *this is equal or smaller than n_2 then it can't be bigger
 		return false;
 	else
@@ -520,7 +551,7 @@ bool Integer::operator>=(const Integer& n_2){
 }
 Integer* Integer::Parse(std::string number)
 {
-	//This method create a integer using a string
+	//This method creates a integer using a string
 	Integer* new_integer = new Integer();
 	Nodo* aux = new Nodo();
 	aux = new_integer->first;
@@ -565,7 +596,7 @@ Integer* Integer::Factorial(Integer* number){
 
 	Integer* result = new Integer(1);
 	Integer* index = new Integer(1);
-	Integer* increment = new Integer(1); //To inncrease the index
+	Integer* increment = new Integer(1); //To increase the index
 
 	for (*index; *index <= *number; *index = *index + *increment) {
 		
