@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
 
 
 	try {
+		std::cout << "	LE SIRVE MOOOOOOOOOP_?????????????? \n\n\n";
 		std::cout << "Testing Factorial of 1000: " << std::endl << std::endl;
 		factorial_test = Integer::Factorial(factorial_test);
 		std::cout << factorial_test->toString() << std::endl <<std::endl;
